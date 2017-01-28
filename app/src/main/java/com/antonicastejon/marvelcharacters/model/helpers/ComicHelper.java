@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.model.Image;
+import com.antonicastejon.marvelcharacters.utils.random.RandomUtils;
 
 import java.util.List;
 
@@ -21,7 +22,18 @@ public class ComicHelper {
         return null;
     }
 
-    public static String getImageUrl(@NonNull Comic comic, int imagePos) {
+    public static String getRandomImageUrl(@NonNull Comic comic) {
+        List<Image> images = comic.getImages();
+        int size = images != null ? images.size() : 0;
+        if (size == 0) return null;
+
+        int imagePos;
+        if (size > 1) imagePos = RandomUtils.getRandomBetween(0, size -1);
+        else imagePos = 0;
+        return getImageUrl(comic, imagePos);
+    }
+
+    private static String getImageUrl(@NonNull Comic comic, int imagePos) {
         List<Image> images = comic.getImages();
         if (images != null && images.size() > imagePos) {
             return getUrl(images.get(imagePos));
