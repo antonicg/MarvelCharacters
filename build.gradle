@@ -19,7 +19,6 @@ allprojects {
         mavenCentral()
     }
 }
-apply plugin: 'me.tatarka.retrolambda'
 
 task clean(type: Delete) {
     delete rootProject.buildDir
