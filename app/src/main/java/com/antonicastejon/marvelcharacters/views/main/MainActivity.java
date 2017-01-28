@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.antonicastejon.marvelcharacters.R;
+import com.antonicastejon.marvelcharacters.di.ApplicationModule;
 import com.antonicastejon.marvelcharacters.di.DaggerMainComponent;
 import com.antonicastejon.marvelcharacters.di.MainPresenterModule;
 import com.antonicastejon.marvelcharacters.model.Comic;
@@ -71,6 +72,7 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
         ButterKnife.bind(this);
 
         DaggerMainComponent.builder()
+                .applicationModule(new ApplicationModule(getApplication()))
                 .mainPresenterModule(new MainPresenterModule(this))
                 .build()
                 .inject(this);

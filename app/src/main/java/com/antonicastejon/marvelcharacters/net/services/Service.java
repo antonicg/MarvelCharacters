@@ -1,9 +1,13 @@
 package com.antonicastejon.marvelcharacters.net.services;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
 import com.antonicastejon.marvelcharacters.utils.crypt.MD5;
+import com.antonicastejon.marvelcharacters.utils.network.NetworkStateHelper;
 
 /**
  * Created by Antoni Castejón on 28/01/2017.
@@ -21,9 +25,11 @@ public abstract class Service<T>  {
     private MD5 md5;
     private long timeStamp;
     private String hash;
+    private Context appContext;
 
-    public Service(MD5 md5) {
+    public Service(Context appContext, MD5 md5) {
         this.md5 = md5;
+        this.appContext = appContext;
     }
 
     public String getPublicKey() {
@@ -31,8 +37,18 @@ public abstract class Service<T>  {
     }
 
     public void executeRequest(RequestConsumer<T> callback) {
-        generateNewAuth();
-        executeService(timeStamp, hash, callback);
+        if (NetworkStateHelper.IsNetworkAvailable(appContext)) {
+            generateNewAuth();
+            executeService(timeStamp, hash, callback);
+        }
+        else {
+            onError(new NoInternetException(), callback);
+        }
+    }
+
+    protected void onError(@NonNull Throwable throwable, RequestConsumer<T> callback) {
+        String message = throwable.getMessage();
+        callback.onError(-1, message);
     }
 
     private void generateNewAuth() {
@@ -46,5 +62,14 @@ public abstract class Service<T>  {
 
     private String getRequestHash(String timeStamp, MD5 md5) throws Exception {
         return md5.getMD5(timeStamp + PRIVATE_KEY + PUBLIC_KEY);
+    }
+
+    public static class NoInternetException extends Throwable {
+
+        private final static String NO_INTERNET_ERROR = "No internet connection";
+
+        public NoInternetException() {
+            super(NO_INTERNET_ERROR);
+        }
     }
 }
