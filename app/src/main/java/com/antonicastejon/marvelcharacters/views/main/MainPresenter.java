@@ -1,5 +1,6 @@
 package com.antonicastejon.marvelcharacters.views.main;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.antonicastejon.marvelcharacters.model.Comic;
@@ -78,5 +79,15 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     public void init() {
         isInitialized = true;
         getView().initializeComicsView(images, comicList);
+    }
+
+    public void init(@NonNull List<Comic> comics) {
+        isInitialized = true;
+        comicList.addAll(comics);
+        getView().initializeComicsView(images, comics);
+    }
+
+    public List<Comic> getComicList() {
+        return comicList;
     }
 }
