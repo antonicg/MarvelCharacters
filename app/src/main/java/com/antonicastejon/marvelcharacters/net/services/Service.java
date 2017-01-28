@@ -3,7 +3,7 @@ package com.antonicastejon.marvelcharacters.net.services;
 import android.util.Log;
 
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
-import com.antonicastejon.marvelcharacters.utils.MD5;
+import com.antonicastejon.marvelcharacters.utils.crypt.MD5;
 
 /**
  * Created by Antoni Castejón on 28/01/2017.

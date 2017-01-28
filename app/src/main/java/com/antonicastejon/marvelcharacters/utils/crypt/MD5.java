@@ -1,4 +1,4 @@
-package com.antonicastejon.marvelcharacters.utils;
+package com.antonicastejon.marvelcharacters.utils.crypt;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
