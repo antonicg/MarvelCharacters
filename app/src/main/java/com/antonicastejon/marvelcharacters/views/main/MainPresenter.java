@@ -77,6 +77,6 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
 
     public void init() {
         isInitialized = true;
-        getView().initializeComicRecyclerView(images, comicList);
+        getView().initializeComicsView(images, comicList);
     }
 }

@@ -30,6 +30,7 @@
                 app:layout_collapseParallaxMultiplier="0.3"/>
 
             <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="true"
@@ -44,7 +45,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="@dimen/content_padding">
+        android:padding="@dimen/content_padding"
+        android:background="@android:color/background_light">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,19 +57,19 @@
                 android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
+                android:textAppearance="@style/Title"/>
 
             <TextView
                 android:id="@+id/text_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/Body" />
 
             <TextView
                 android:id="@+id/text_pages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+                android:textAppearance="@style/Caption" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

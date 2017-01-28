@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.antonicastejon.marvelcharacters.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import javax.inject.Inject;
@@ -22,6 +23,13 @@ public class Images {
         Glide.with(into.getContext())
                 .load(url)
                 .placeholder(R.drawable.placeholder_loading)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(into);
+    }
+
+    public void loadWithNoPlaceholder(@NonNull String url, @NonNull ImageView into) {
+        Glide.with(into.getContext())
+                .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(into);
     }

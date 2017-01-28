@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface MainView extends BaseMvpView {
 
-    void initializeComicRecyclerView(Images images, List<Comic> viewData);
+    void initializeComicsView(Images images, List<Comic> viewData);
     void updateComics();
     void errorLoadingComics();
 }

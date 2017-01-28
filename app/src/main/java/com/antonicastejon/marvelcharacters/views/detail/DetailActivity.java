@@ -1,11 +1,16 @@
 package com.antonicastejon.marvelcharacters.views.detail;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,7 +44,7 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     TextView textViewPages;
     @BindView(R.id.collapsing_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
-
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @Inject
     DetailPresenter presenter;
 
@@ -60,11 +65,6 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
         showComicFromExtras();
     }
 
-    private void initCollapsingToolbarLayout() {
-        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
-        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
-    }
-
     private void injectDependencies() {
         ButterKnife.bind(this);
 
@@ -74,11 +74,35 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
                 .inject(this);
     }
 
+    private void initCollapsingToolbarLayout() {
+        setSupportActionBar(toolbar);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowHomeEnabled(true);
+        }
+
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
+    }
+
+
     private void showComicFromExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Comic comic = extras.getParcelable(COMIC_EXTRA);
             if (comic != null) presenter.showComic(comic);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -90,12 +114,17 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
 
     @Override
     public void showDescription(String description) {
-        textViewDescription.setText(description);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textViewDescription.setText(Html.fromHtml(description, 0));
+        }
+        else {
+            textViewDescription.setText(Html.fromHtml(description));
+        }
     }
 
     @Override
     public void showImage(Images images, String urlImage) {
-        images.load(urlImage, imageView);
+        images.loadWithNoPlaceholder(urlImage, imageView);
     }
 
     @Override
