@@ -24,12 +24,16 @@ import butterknife.ButterKnife;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolder> {
 
+    public interface ItemPressedListener {
+        void onComicPressed(Comic comic);
+    }
     private final List<Comic> data;
+    private final ItemPressedListener itemPressedListener;
+    private final Images images;
 
-    private Images images;
-
-    public MainAdapter(@NonNull List<Comic> data, Images images) {
+    public MainAdapter(@NonNull List<Comic> data, ItemPressedListener itemPressedListener, Images images) {
         this.data = data;
+        this.itemPressedListener = itemPressedListener;
         this.images = images;
     }
 
@@ -45,6 +49,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
         String imageUrl = ComicHelper.getThumbnailUrl(comic);
         if (imageUrl != null) images.load(imageUrl, holder.imageView);
         holder.textView.setText(comic.getTitle());
+        holder.itemView.setOnClickListener(view -> itemPressedListener.onComicPressed(comic));
     }
 
     @Override
@@ -60,9 +65,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
         @BindView(R.id.text)
         TextView textView;
 
+        View itemView;
+
         public ComicViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            this.itemView = itemView;
         }
     }
 }
