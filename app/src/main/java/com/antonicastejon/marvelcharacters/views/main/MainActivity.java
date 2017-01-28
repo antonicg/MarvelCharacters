@@ -1,7 +1,6 @@
 package com.antonicastejon.marvelcharacters.views.main;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
@@ -10,6 +9,8 @@ import com.antonicastejon.marvelcharacters.di.DaggerMainComponent;
 import com.antonicastejon.marvelcharacters.di.MainPresenterModule;
 import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
+import com.antonicastejon.marvelcharacters.utils.listeners.EndlessScrollListener;
+import com.antonicastejon.marvelcharacters.views.base.BaseMvpActivity;
 import com.antonicastejon.marvelcharacters.views.main.adapter.MainAdapter;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends BaseMvpActivity implements MainView {
 
     private final static int START_OFFSET_COMICS = 0;
     private final static int GRID_SPAN = 2;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private MainAdapter adapter;
+    private EndlessScrollListener endlessScrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +59,19 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void initializeView(Images images, List<Comic> viewData) {
+    public void initializeComicRecyclerView(Images images, List<Comic> viewData) {
         if (recyclerView == null || presenter == null) return;
 
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(GRID_SPAN, StaggeredGridLayoutManager.VERTICAL);
+
+        endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                presenter.load(totalItemsCount);
+            }
+        };
+
+        recyclerView.addOnScrollListener(endlessScrollListener);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         adapter = new MainAdapter(viewData, images);
@@ -72,5 +83,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void errorLoadingComics() {
+        if (endlessScrollListener != null) endlessScrollListener.resetState();
     }
 }

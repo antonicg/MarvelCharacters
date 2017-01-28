@@ -38,6 +38,11 @@ public class MarvelService extends Service<Comic> {
         marvelApi.getComicsFromCharacter(1009220, timeStamp, getPublicKey(), hash, REQUEST_LIMIT, offset)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(callback);
+                .subscribe(callback, throwable -> onError(throwable, callback));
+    }
+
+    private void onError(Throwable throwable, RequestConsumer<Comic> callback) {
+        String message = throwable.getMessage();
+        callback.onError(-1, message);
     }
 }

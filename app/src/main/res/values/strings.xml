@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MarvelCharacters</string>
+    <string name="loading">Loading...</string>
 </resources>

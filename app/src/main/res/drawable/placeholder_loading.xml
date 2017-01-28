@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/background_light"/>
+        </shape>
+    </item>
+    <item
+        android:gravity="center">
+        <animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+            android:drawable="@mipmap/ic_launcher"
+            android:pivotX="50%"
+            android:pivotY="50%" />
+    </item>
+</layer-list>

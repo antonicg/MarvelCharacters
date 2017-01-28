@@ -30,7 +30,11 @@ public class RequestConsumer<T> implements Consumer<ResponseWrapper<T>> {
             callback.onResponse(responseWrapper.getData());
         }
         else {
-            callback.onError(code, responseWrapper.getStatus());
+            onError(code, responseWrapper.getStatus());
         }
+    }
+
+    public void onError(int code, String message) {
+        callback.onError(code, message);
     }
 }
