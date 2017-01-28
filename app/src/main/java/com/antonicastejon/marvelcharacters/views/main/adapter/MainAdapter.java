@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolder> {
 
     public interface ItemPressedListener {
-        void onComicPressed(Comic comic);
+        void onComicPressed(Comic comic, View transitionView);
     }
     private final List<Comic> data;
     private final ItemPressedListener itemPressedListener;
@@ -49,7 +49,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
         String imageUrl = ComicHelper.getThumbnailUrl(comic);
         if (imageUrl != null) images.load(imageUrl, holder.imageView);
         holder.textView.setText(comic.getTitle());
-        holder.itemView.setOnClickListener(view -> itemPressedListener.onComicPressed(comic));
+        holder.itemView.setOnClickListener(view -> itemPressedListener.onComicPressed(comic, holder.imageView));
     }
 
     @Override

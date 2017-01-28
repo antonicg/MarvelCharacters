@@ -3,6 +3,8 @@ package com.antonicastejon.marvelcharacters.views.detail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +37,8 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     TextView textViewDescription;
     @BindView(R.id.text_pages)
     TextView textViewPages;
+    @BindView(R.id.collapsing_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Inject
     DetailPresenter presenter;
@@ -52,7 +56,13 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
 
         injectDependencies();
 
+        initCollapsingToolbarLayout();
         showComicFromExtras();
+    }
+
+    private void initCollapsingToolbarLayout() {
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
     }
 
     private void injectDependencies() {
@@ -74,6 +84,7 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
 
     @Override
     public void showTitle(String title) {
+        collapsingToolbarLayout.setTitle(title);
         textViewTitle.setText(title);
     }
 

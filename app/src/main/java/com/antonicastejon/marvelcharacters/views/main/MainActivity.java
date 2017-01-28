@@ -2,8 +2,10 @@ package com.antonicastejon.marvelcharacters.views.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
 
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.di.DaggerMainComponent;
@@ -93,8 +95,11 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     }
 
     @Override
-    public void onComicPressed(Comic comic) {
+    public void onComicPressed(Comic comic, View transitionView) {
         Intent intent = DetailActivity.getIntent(this, comic);
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, transitionView, getString(R.string.transition_detail_image));
+        startActivity(intent, options.toBundle());
+
     }
 }
