@@ -11,6 +11,11 @@ public class Image implements Parcelable {
     private String path;
     private String extension;
 
+    public Image(String path, String extension) {
+        this.path = path;
+        this.extension = extension;
+    }
+
     protected Image(Parcel in) {
         path = in.readString();
         extension = in.readString();

@@ -30,12 +30,11 @@ public class ComicHelper {
         int imagePos;
         if (size > 1) imagePos = RandomUtils.getRandomBetween(0, size -1);
         else imagePos = 0;
-        return getImageUrl(comic, imagePos);
+        return getImageUrl(images, imagePos);
     }
 
-    private static String getImageUrl(@NonNull Comic comic, int imagePos) {
-        List<Image> images = comic.getImages();
-        if (images != null && images.size() > imagePos) {
+    private static String getImageUrl(@NonNull List<Image> images, int imagePos) {
+        if (images.size() > imagePos) {
             return getUrl(images.get(imagePos));
         }
         return null;

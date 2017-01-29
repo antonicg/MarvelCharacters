@@ -5,6 +5,7 @@ import android.content.Context;
 import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
 import com.antonicastejon.marvelcharacters.utils.crypt.MD5;
+import com.antonicastejon.marvelcharacters.utils.network.NetworkStateHelper;
 
 import javax.inject.Inject;
 
@@ -26,8 +27,8 @@ public class MarvelService extends Service<Comic> {
     private int offset;
 
     @Inject
-    public MarvelService(Context appContext, MarvelApi marvelApi, MD5 md5) {
-        super(appContext, md5);
+    public MarvelService(Context appContext, MarvelApi marvelApi, MD5 md5, NetworkStateHelper networkStateHelper) {
+        super(appContext, md5, networkStateHelper);
         this.marvelApi = marvelApi;
     }
 

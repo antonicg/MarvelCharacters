@@ -25,10 +25,12 @@ public abstract class Service<T>  {
     private long timeStamp;
     private String hash;
     private Context appContext;
+    private NetworkStateHelper networkStateHelper;
 
-    public Service(Context appContext, MD5 md5) {
+    public Service(Context appContext, MD5 md5, NetworkStateHelper networkStateHelper) {
         this.md5 = md5;
         this.appContext = appContext;
+        this.networkStateHelper = networkStateHelper;
     }
 
     public String getPublicKey() {
@@ -36,7 +38,7 @@ public abstract class Service<T>  {
     }
 
     public void executeRequest(RequestConsumer<T> callback) {
-        if (NetworkStateHelper.IsNetworkAvailable(appContext)) {
+        if (networkStateHelper.isNetworkAvailable(appContext)) {
             generateNewAuth();
             executeService(timeStamp, hash, callback);
         }
