@@ -8,7 +8,7 @@ import dagger.Component;
  * Created by Antoni Castejón on 28/01/2017.
  */
 
-@Component(modules = {MainPresenterModule.class, NetModule.class})
+@Component(modules = {ApplicationModule.class, MainPresenterModule.class, NetModule.class})
 public interface MainComponent {
 
     void inject(MainActivity mainActivity);

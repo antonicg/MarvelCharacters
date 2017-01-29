@@ -5,7 +5,6 @@ import android.widget.ImageView;
 
 import com.antonicastejon.marvelcharacters.R;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import javax.inject.Inject;

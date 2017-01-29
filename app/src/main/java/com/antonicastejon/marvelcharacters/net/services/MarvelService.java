@@ -1,5 +1,7 @@
 package com.antonicastejon.marvelcharacters.net.services;
 
+import android.content.Context;
+
 import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
 import com.antonicastejon.marvelcharacters.utils.crypt.MD5;
@@ -24,8 +26,8 @@ public class MarvelService extends Service<Comic> {
     private int offset;
 
     @Inject
-    public MarvelService(MarvelApi marvelApi, MD5 md5) {
-        super(md5);
+    public MarvelService(Context appContext, MarvelApi marvelApi, MD5 md5) {
+        super(appContext, md5);
         this.marvelApi = marvelApi;
     }
 
@@ -39,10 +41,5 @@ public class MarvelService extends Service<Comic> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback, throwable -> onError(throwable, callback));
-    }
-
-    private void onError(Throwable throwable, RequestConsumer<Comic> callback) {
-        String message = throwable.getMessage();
-        callback.onError(-1, message);
     }
 }

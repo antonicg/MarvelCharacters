@@ -13,8 +13,21 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ViewStub
+            android:id="@+id/stub_error_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/layout_error_loading"/>
+
+    </FrameLayout>
+
 </LinearLayout>

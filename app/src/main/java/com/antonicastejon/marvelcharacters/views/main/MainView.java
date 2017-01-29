@@ -13,6 +13,14 @@ import java.util.List;
 public interface MainView extends BaseMvpView {
 
     void initializeComicsView(Images images, List<Comic> viewData);
+
     void updateComics();
+
     void errorLoadingComics();
+
+    void showRetryMessage();
+
+    void hideRetryMessage();
+
+    boolean isShowingRetryMessage();
 }
