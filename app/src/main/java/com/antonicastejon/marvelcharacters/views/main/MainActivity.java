@@ -3,6 +3,7 @@ package com.antonicastejon.marvelcharacters.views.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseMvpActivity implements MainView, MainAdapter.ItemPressedListener {
 
     private final static String KEY_BUNDLE_COMICS = "comics";
+    private final static String KEY_BUNDLE_CURRENT_PAGE = "page";
 
     private final static int START_OFFSET_COMICS = 0;
     private final static int GRID_SPAN = 2;
@@ -48,6 +50,8 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     private MainAdapter adapter;
     private EndlessScrollListener endlessScrollListener;
 
+    private int currentPage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +62,9 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
         initializeToolbar();
 
         if (savedInstanceState != null) {
+            currentPage = savedInstanceState.getInt(KEY_BUNDLE_CURRENT_PAGE);
             List<Comic> comics = savedInstanceState.getParcelableArrayList(KEY_BUNDLE_COMICS);
-            if (comics != null) presenter.init(comics);
+            if (comics != null) presenter.initWith(comics);
             else initializePresenterAndLoadComics();
         }
         else {
@@ -100,11 +105,19 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(KEY_BUNDLE_COMICS, (ArrayList<? extends Parcelable>) presenter.getComicList());
+        if (adapter != null) {
+            outState.putParcelableArrayList(KEY_BUNDLE_COMICS, (ArrayList<? extends Parcelable>) adapter.getData());
+        }
+        outState.putInt(KEY_BUNDLE_CURRENT_PAGE, endlessScrollListener.getCurrentPage());
     }
 
     @Override
-    public void initializeComicsView(Images images, List<Comic> viewData) {
+    public void initializeComicsView(Images images) {
+        initializeComicsViewWithComics(images, null);
+    }
+
+    @Override
+    public void initializeComicsViewWithComics(Images images, @Nullable List<Comic> comics) {
         if (recyclerView == null || presenter == null) return;
 
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(GRID_SPAN, StaggeredGridLayoutManager.VERTICAL);
@@ -115,19 +128,24 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
                 presenter.load(totalItemsCount);
             }
         };
-
+        endlessScrollListener.setCurrentPage(currentPage);
         recyclerView.addOnScrollListener(endlessScrollListener);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new MainAdapter(viewData, this, images);
+        adapter = new MainAdapter(this, images);
         recyclerView.setAdapter(adapter);
+
+        if (comics != null) adapter.update(comics);
     }
 
     @Override
-    public void updateComics() {
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
+    public boolean thereAreAnyComic() {
+        return adapter != null && adapter.getItemCount() > 0;
+    }
+
+    @Override
+    public void updateComics(List<Comic> viewData) {
+        if (adapter != null) adapter.update(viewData);
     }
 
     @Override

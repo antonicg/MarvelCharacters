@@ -11,7 +11,6 @@ import com.antonicastejon.marvelcharacters.net.services.MarvelService;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BasePresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +22,6 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     private final static String TAG = MainPresenter.class.getName();
 
     private final ComicsRequest comicsRequest;
-    private final List<Comic> comicList;
     private final Images images;
 
     private boolean isInitialized;
@@ -32,7 +30,6 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     public MainPresenter(MainView mainView, MarvelService marvelService, Images images) {
         super(mainView);
         this.images = images;
-        this.comicList = new ArrayList<>();
         RequestConsumer<Comic> requestConsumer = new RequestConsumer<>(this);
         comicsRequest = new ComicsRequest(marvelService, requestConsumer);
     }
@@ -59,12 +56,11 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     public void onResponse(ResponseWrapper.DataContainer<Comic> data) {
         totalItems = data.getTotal();
         List<Comic> results = data.getResults();
-        comicList.addAll(results);
 
         MainView view = getView();
         if (view.isShowingRetryMessage()) view.hideRetryMessage();
         view.dismisssLoadingAlert();
-        view.updateComics();
+        view.updateComics(results);
     }
 
     @Override
@@ -79,22 +75,17 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     }
 
     private boolean showRetryMessage() {
-        return comicList.size() == 0;
+        return !getView().thereAreAnyComic();
     }
 
 
     public void init() {
         isInitialized = true;
-        getView().initializeComicsView(images, comicList);
+        getView().initializeComicsView(images);
     }
 
-    public void init(@NonNull List<Comic> comics) {
+    public void initWith(@NonNull List<Comic> comics) {
         isInitialized = true;
-        comicList.addAll(comics);
-        getView().initializeComicsView(images, comics);
-    }
-
-    public List<Comic> getComicList() {
-        return comicList;
+        getView().initializeComicsViewWithComics(images, comics);
     }
 }

@@ -3,7 +3,6 @@ package com.antonicastejon.marvelcharacters.utils.image;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
-import com.antonicastejon.marvelcharacters.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 

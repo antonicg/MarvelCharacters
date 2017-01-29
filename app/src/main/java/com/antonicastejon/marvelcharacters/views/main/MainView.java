@@ -12,9 +12,13 @@ import java.util.List;
 
 public interface MainView extends BaseMvpView {
 
-    void initializeComicsView(Images images, List<Comic> viewData);
+    void initializeComicsView(Images images);
 
-    void updateComics();
+    void initializeComicsViewWithComics(Images images, List<Comic> comics);
+
+    boolean thereAreAnyComic();
+
+    void updateComics(List<Comic> viewData);
 
     void errorLoadingComics();
 

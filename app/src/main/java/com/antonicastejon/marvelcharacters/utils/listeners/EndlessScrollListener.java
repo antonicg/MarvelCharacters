@@ -7,6 +7,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 
 /**
  * https://gist.github.com/nesquena/d09dc68ff07e845cc622
+ *
+ * Modified to recover the state by Antoni Castejón
  */
 
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
@@ -21,7 +23,7 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     // The total number of items in the dataset after the last load
     private int previousTotalItemCount = 0;
     // True if we are still waiting for the last set of data to load.
-    private boolean loading = true;
+    private boolean loading = false;
     // Sets the starting page index
     private int startingPageIndex = 0;
 
@@ -39,6 +41,14 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     public EndlessScrollListener(StaggeredGridLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
         visibleThreshold = visibleThreshold * layoutManager.getSpanCount();
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
     }
 
     public int getLastVisibleItem(int[] lastVisibleItemPositions) {

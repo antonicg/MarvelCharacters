@@ -13,6 +13,7 @@ import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.model.helpers.ComicHelper;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,10 +32,23 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
     private final ItemPressedListener itemPressedListener;
     private final Images images;
 
-    public MainAdapter(@NonNull List<Comic> data, ItemPressedListener itemPressedListener, Images images) {
-        this.data = data;
+    public MainAdapter(ItemPressedListener itemPressedListener, Images images) {
+        this.data = new ArrayList<>();
         this.itemPressedListener = itemPressedListener;
         this.images = images;
+    }
+
+    public List<Comic> getData() {
+        return data;
+    }
+
+    public void update(@NonNull List<Comic> data) {
+        this.data.addAll(data);
+
+        int dataSize = this.data.size();
+        int startRange = dataSize - data.size();
+        int endRange = dataSize;
+        notifyItemRangeInserted(startRange, endRange);
     }
 
     @Override
