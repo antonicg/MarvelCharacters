@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewStub;
+import android.widget.Button;
 
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.di.ApplicationModule;
@@ -38,8 +40,10 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
 
     @Inject MainPresenter presenter;
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.stub_error_loading) ViewStub viewStubErrorLoading;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    private Button buttonRetry;
 
     private MainAdapter adapter;
     private EndlessScrollListener endlessScrollListener;
@@ -93,7 +97,6 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
         presenter.load(offset);
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -130,6 +133,27 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     @Override
     public void errorLoadingComics() {
         if (endlessScrollListener != null) endlessScrollListener.resetState();
+    }
+
+    @Override
+    public void showRetryMessage() {
+        viewStubErrorLoading.setVisibility(View.VISIBLE);
+        buttonRetry = (Button) findViewById(R.id.button_retry);
+        if (buttonRetry != null) {
+            buttonRetry.setOnClickListener(v -> {
+                loadComics(START_OFFSET_COMICS);
+            });
+        }
+    }
+
+    @Override
+    public void hideRetryMessage() {
+        viewStubErrorLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean isShowingRetryMessage() {
+        return viewStubErrorLoading.getVisibility() == View.VISIBLE;
     }
 
     @Override

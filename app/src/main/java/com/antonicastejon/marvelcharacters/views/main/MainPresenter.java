@@ -52,18 +52,17 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     }
 
     private boolean totalItemsAreNotShowingYet(int currentItems) {
-        return currentItems == 0 || currentItems < totalItems;
+        return currentItems == 0 || totalItems == 0 || currentItems < totalItems;
     }
 
     @Override
     public void onResponse(ResponseWrapper.DataContainer<Comic> data) {
         totalItems = data.getTotal();
-
         List<Comic> results = data.getResults();
-
         comicList.addAll(results);
 
         MainView view = getView();
+        if (view.isShowingRetryMessage()) view.hideRetryMessage();
         view.dismisssLoadingAlert();
         view.updateComics();
     }
@@ -73,6 +72,14 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
         MainView view = getView();
         view.errorLoadingComics();
         view.dismisssLoadingAlert();
+
+        if (showRetryMessage()) {
+            if (!view.isShowingRetryMessage()) view.showRetryMessage();
+        }
+    }
+
+    private boolean showRetryMessage() {
+        return comicList.size() == 0;
     }
 
 

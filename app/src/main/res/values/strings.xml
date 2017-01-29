@@ -5,4 +5,6 @@
         <item quantity="one">%1$d página</item>
         <item quantity="other">%1$d páginas</item>
     </plurals>
+    <string name="error_loading">There was an error :(</string>
+    <string name="retry">Retry?</string>
 </resources>
