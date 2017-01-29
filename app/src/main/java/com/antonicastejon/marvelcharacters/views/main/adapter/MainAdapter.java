@@ -47,7 +47,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
     public void onBindViewHolder(ComicViewHolder holder, int position) {
         Comic comic = data.get(position);
         String imageUrl = ComicHelper.getThumbnailUrl(comic);
-        if (imageUrl != null) images.load(imageUrl, holder.imageView);
+        if (imageUrl != null) images.loadForCell(imageUrl, holder.imageView);
         holder.textView.setText(comic.getTitle());
         holder.itemView.setOnClickListener(view -> itemPressedListener.onComicPressed(comic, holder.imageView));
     }

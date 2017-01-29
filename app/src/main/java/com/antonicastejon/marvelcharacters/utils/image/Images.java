@@ -18,18 +18,18 @@ public class Images {
     @Inject
     public Images() {}
 
-    public void load(@NonNull String url, @NonNull ImageView into) {
+    public void loadForCell(@NonNull String url, @NonNull ImageView into) {
         Glide.with(into.getContext())
                 .load(url)
-                .placeholder(R.drawable.placeholder_loading)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(into);
     }
 
-    public void loadWithNoPlaceholder(@NonNull String url, @NonNull ImageView into) {
+    public void loadForDetail(@NonNull String url, @NonNull ImageView into) {
         Glide.with(into.getContext())
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
                 .into(into);
     }
 }

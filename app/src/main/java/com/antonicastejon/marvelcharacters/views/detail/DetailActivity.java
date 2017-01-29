@@ -124,7 +124,7 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
 
     @Override
     public void showImage(Images images, String urlImage) {
-        images.loadWithNoPlaceholder(urlImage, imageView);
+        images.loadForDetail(urlImage, imageView);
     }
 
     @Override
