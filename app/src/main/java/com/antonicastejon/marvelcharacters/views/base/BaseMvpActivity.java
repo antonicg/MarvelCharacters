@@ -29,4 +29,8 @@ public class BaseMvpActivity extends AppCompatActivity implements BaseMvpView {
     public void dismisssLoadingAlert() {
         if (progressDialog != null) progressDialog.dismiss();
     }
+
+    protected boolean isLandscape() {
+        return getResources().getBoolean(R.bool.lanscape);
+    }
 }

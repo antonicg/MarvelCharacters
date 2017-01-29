@@ -38,7 +38,8 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     private final static String KEY_BUNDLE_CURRENT_PAGE = "page";
 
     private final static int START_OFFSET_COMICS = 0;
-    private final static int GRID_SPAN = 2;
+    private final static int GRID_SPAN_PORTRAIT = 2;
+    private final static int GRID_SPAN_LANDSCAPE = 3;
 
     @Inject MainPresenter presenter;
 
@@ -120,7 +121,7 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     public void initializeComicsViewWithComics(Images images, @Nullable List<Comic> comics) {
         if (recyclerView == null || presenter == null) return;
 
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(GRID_SPAN, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(getGridSpan(), StaggeredGridLayoutManager.VERTICAL);
 
         endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
             @Override
@@ -136,6 +137,10 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
         recyclerView.setAdapter(adapter);
 
         if (comics != null) adapter.update(comics);
+    }
+
+    private int getGridSpan() {
+        return isLandscape() ? GRID_SPAN_LANDSCAPE : GRID_SPAN_PORTRAIT;
     }
 
     @Override
