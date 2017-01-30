@@ -16,9 +16,6 @@ public abstract class Service<T>  {
 
     private final static String TAG = MarvelService.class.getName();
 
-    private final static String PUBLIC_KEY  = "6a7ed890b4b941a925202a5630d5b162";
-    private final static String PRIVATE_KEY = "0f1d0fdf46a0bf32f962b0b9997233c0395cdf8e";
-
     protected abstract void executeService(long timeStamp, String hash, RequestConsumer<T> callback);
 
     private MD5 md5;
@@ -26,15 +23,19 @@ public abstract class Service<T>  {
     private String hash;
     private Context appContext;
     private NetworkStateHelper networkStateHelper;
+    private String publicKey;
+    private String privateKey;
 
-    public Service(Context appContext, MD5 md5, NetworkStateHelper networkStateHelper) {
+    public Service(Context appContext, MD5 md5, NetworkStateHelper networkStateHelper, String publicKey, String privateKey) {
         this.md5 = md5;
         this.appContext = appContext;
         this.networkStateHelper = networkStateHelper;
+        this.publicKey = publicKey;
+        this.privateKey = privateKey;
     }
 
-    public String getPublicKey() {
-        return PUBLIC_KEY;
+    protected String getPublicKey() {
+        return publicKey;
     }
 
     public void executeRequest(RequestConsumer<T> callback) {
@@ -62,7 +63,7 @@ public abstract class Service<T>  {
     }
 
     private String getRequestHash(String timeStamp, MD5 md5) throws Exception {
-        return md5.getMD5(timeStamp + PRIVATE_KEY + PUBLIC_KEY);
+        return md5.getMD5(timeStamp + privateKey + publicKey);
     }
 
     public static class NoInternetException extends Throwable {

@@ -2,12 +2,14 @@ package com.antonicastejon.marvelcharacters.net.services;
 
 import android.content.Context;
 
+import com.antonicastejon.marvelcharacters.Constants;
 import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
 import com.antonicastejon.marvelcharacters.utils.crypt.MD5;
 import com.antonicastejon.marvelcharacters.utils.network.NetworkStateHelper;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -27,8 +29,8 @@ public class MarvelService extends Service<Comic> {
     private int offset;
 
     @Inject
-    public MarvelService(Context appContext, MarvelApi marvelApi, MD5 md5, NetworkStateHelper networkStateHelper) {
-        super(appContext, md5, networkStateHelper);
+    public MarvelService(Context appContext, MarvelApi marvelApi, MD5 md5, NetworkStateHelper networkStateHelper, @Named(Constants.NAMED_PUBLIC_KEY) String publicKey, @Named(Constants.NAMED_PRIVATE_KEY) String privateKey) {
+        super(appContext, md5, networkStateHelper, publicKey, privateKey);
         this.marvelApi = marvelApi;
     }
 

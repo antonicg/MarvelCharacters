@@ -1,10 +1,16 @@
 package com.antonicastejon.marvelcharacters.di;
 
+import android.content.Context;
+
 import com.antonicastejon.marvelcharacters.BuildConfig;
+import com.antonicastejon.marvelcharacters.Constants;
+import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.net.services.MarvelApi;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,6 +28,19 @@ public class NetModule {
 
     private static final int CONNECT_TIMEOUT = 10;
     private static final int READ_TIMEOUT = 10;
+
+    @Provides
+    @Named(Constants.NAMED_PUBLIC_KEY)
+    String providesPublicKey(Context context) {
+        return context.getResources().getString(R.string.public_key);
+    }
+
+    @Provides
+    @Named(Constants.NAMED_PRIVATE_KEY)
+    String providesPrivateKey(Context context) {
+        return context.getResources().getString(R.string.private_key);
+    }
+
     @Provides
     MarvelApi providesMarvelApi(Retrofit retrofit) {
         return retrofit.create(MarvelApi.class);

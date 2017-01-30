@@ -41,7 +41,7 @@ public class ServiceTest {
     public void initializeTests() {
         MockitoAnnotations.initMocks(this);
 
-        service = new Service<Comic>(context, md5, networkStateHelper) {
+        service = new Service<Comic>(context, md5, networkStateHelper, "", "") {
             @Override
             protected void executeService(long timeStamp, String hash, RequestConsumer callback) {
                 try {
