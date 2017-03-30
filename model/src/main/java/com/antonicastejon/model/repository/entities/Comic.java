@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Antoni Castejón on 28/01/2017.
  */
 
-public class Comic implements Parcelable {
+public class Comic {
     private int id;
     private String title;
     private String description;
@@ -25,18 +25,6 @@ public class Comic implements Parcelable {
         thumbnail = in.readParcelable(Image.class.getClassLoader());
         images = in.createTypedArrayList(Image.CREATOR);
     }
-
-    public static final Creator<Comic> CREATOR = new Creator<Comic>() {
-        @Override
-        public Comic createFromParcel(Parcel in) {
-            return new Comic(in);
-        }
-
-        @Override
-        public Comic[] newArray(int size) {
-            return new Comic[size];
-        }
-    };
 
     public int getId() {
         return id;
@@ -84,20 +72,5 @@ public class Comic implements Parcelable {
 
     public void setImages(List<Image> images) {
         this.images = images;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(title);
-        parcel.writeString(description);
-        parcel.writeInt(pageCount);
-        parcel.writeParcelable(thumbnail, i);
-        parcel.writeTypedList(images);
     }
 }

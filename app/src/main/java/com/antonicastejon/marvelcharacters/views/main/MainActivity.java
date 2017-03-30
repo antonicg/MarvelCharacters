@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 
+import com.antonicastejon.domain.business.entities.Comic;
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.di.ApplicationModule;
 import com.antonicastejon.marvelcharacters.di.DaggerMainComponent;
@@ -22,7 +23,6 @@ import com.antonicastejon.marvelcharacters.utils.listeners.EndlessScrollListener
 import com.antonicastejon.marvelcharacters.views.base.BaseMvpActivity;
 import com.antonicastejon.marvelcharacters.views.detail.DetailActivity;
 import com.antonicastejon.marvelcharacters.views.main.adapter.MainAdapter;
-import com.antonicastejon.model.repository.entities.Comic;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.antonicastejon.marvelcharacters.utils.random;
+package com.antonicastejon.domain.helpers;
 
 import java.util.Random;
 

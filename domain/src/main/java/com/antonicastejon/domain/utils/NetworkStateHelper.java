@@ -1,4 +1,4 @@
-package com.antonicastejon.marvelcharacters.utils.network;
+package com.antonicastejon.domain.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

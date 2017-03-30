@@ -1,4 +1,4 @@
-package com.antonicastejon.marvelcharacters.model.helpers;
+package com.antonicastejon.domain.helpers;
 
 import com.antonicastejon.model.repository.entities.Comic;
 import com.antonicastejon.model.repository.entities.Image;

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.antonicastejon.model.repository.api.ResponseWrapper;
 import com.antonicastejon.model.repository.crypt.MD5;
-import com.antonicastejon.model.repository.entities.Comic;
+import com.antonicastejon.model.repository.entities.errors.ResponseError;
 
 import io.reactivex.Flowable;
 
@@ -15,6 +15,8 @@ import io.reactivex.Flowable;
 public abstract class Service<T> {
 
     private final static String TAG = Service.class.getName();
+
+    private final static int OK_CODE = 200;
 
     protected abstract Flowable<ResponseWrapper<T>> executeService(long timeStamp, String hash);
 
@@ -35,9 +37,10 @@ public abstract class Service<T> {
     }
 
 
-    public void executeRequest() {
+    public Flowable<ResponseWrapper<T>> execute() {
         generateNewAuth();
-        executeService(timeStamp, hash);
+        return executeService(timeStamp, hash)
+                .flatMap(this::manageResponse);
     }
 
     private void generateNewAuth() {
@@ -51,5 +54,15 @@ public abstract class Service<T> {
 
     private String getRequestHash(String timeStamp, MD5 md5) throws Exception {
         return md5.getMD5(timeStamp + privateKey + publicKey);
+    }
+
+    private Flowable<ResponseWrapper<T>> manageResponse(ResponseWrapper<T> response) {
+        int code = response.getCode();
+        if (code == OK_CODE) {
+            return Flowable.just(response);
+        }
+        else {
+            return Flowable.error(new ResponseError(response.getStatus(), response.getCode()));
+        }
     }
 }

@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.antonicastejon.domain.business.entities.Comic;
 import com.antonicastejon.marvelcharacters.R;
-import com.antonicastejon.marvelcharacters.model.helpers.ComicHelper;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
-import com.antonicastejon.model.repository.entities.Comic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +59,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
     @Override
     public void onBindViewHolder(ComicViewHolder holder, int position) {
         Comic comic = data.get(position);
-        String imageUrl = ComicHelper.getThumbnailUrl(comic);
+        String imageUrl = comic.getThumbnailUrl();
         if (imageUrl != null) images.loadForCell(imageUrl, holder.imageView);
         holder.textView.setText(comic.getTitle());
         holder.itemView.setOnClickListener(view -> itemPressedListener.onComicPressed(comic, holder.imageView));

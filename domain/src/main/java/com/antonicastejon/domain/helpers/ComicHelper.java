@@ -1,8 +1,7 @@
-package com.antonicastejon.marvelcharacters.model.helpers;
+package com.antonicastejon.domain.helpers;
 
 import android.support.annotation.NonNull;
 
-import com.antonicastejon.marvelcharacters.utils.random.RandomUtils;
 import com.antonicastejon.model.repository.entities.Comic;
 import com.antonicastejon.model.repository.entities.Image;
 

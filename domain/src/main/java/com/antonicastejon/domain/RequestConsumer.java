@@ -1,4 +1,4 @@
-package com.antonicastejon.marvelcharacters.net.requests.base;
+package com.antonicastejon.domain;
 
 import com.antonicastejon.model.repository.api.ResponseWrapper;
 
@@ -8,12 +8,12 @@ import io.reactivex.functions.Consumer;
  * Created by Antoni Castejón on 28/01/2017.
  */
 
-public class RequestConsumer<T> implements Consumer<ResponseWrapper<T>> {
+public class RequestConsumer<T> implements Consumer<T> {
 
     private final static int OK_CODE = 200;
 
     public interface Callback<T> {
-        void onResponse(ResponseWrapper.DataContainer<T> data);
+        void onResponse(T data);
         void onError(int code, String message);
     }
 
@@ -24,14 +24,8 @@ public class RequestConsumer<T> implements Consumer<ResponseWrapper<T>> {
     }
 
     @Override
-    public void accept(ResponseWrapper<T> responseWrapper) throws Exception {
-        int code = responseWrapper.getCode();
-        if (code == OK_CODE) {
-            callback.onResponse(responseWrapper.getData());
-        }
-        else {
-            onError(code, responseWrapper.getStatus());
-        }
+    public void accept(T response) throws Exception {
+        callback.onResponse(response);
     }
 
     public void onError(int code, String message) {

@@ -3,13 +3,11 @@ package com.antonicastejon.marvelcharacters.views.main;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
-import com.antonicastejon.marvelcharacters.net.requests.comics.ComicsRequest;
-import com.antonicastejon.model.repository.api.ResponseWrapper;
-import com.antonicastejon.marvelcharacters.net.services.MarvelService;
+import com.antonicastejon.domain.RequestConsumer;
+import com.antonicastejon.domain.business.entities.Comic;
+import com.antonicastejon.domain.business.usecases.GetComicsFromCharacterUseCase;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BasePresenter;
-import com.antonicastejon.model.repository.entities.Comic;
 
 import java.util.List;
 
@@ -17,21 +15,23 @@ import java.util.List;
  * Created by Antoni Castejón on 28/01/2017.
  */
 
-public class MainPresenter extends BasePresenter<MainView> implements RequestConsumer.Callback<Comic> {
+public class MainPresenter extends BasePresenter<MainView> implements RequestConsumer.Callback<List<Comic>> {
 
     private final static String TAG = MainPresenter.class.getName();
 
-    private final ComicsRequest comicsRequest;
+    private final GetComicsFromCharacterUseCase getComicsFromCharacterUseCase;
+    private final RequestConsumer<List<Comic>> requestConsumer;
     private final Images images;
 
     private boolean isInitialized;
     private int totalItems;
 
-    public MainPresenter(MainView mainView, MarvelService marvelService, Images images) {
+    public MainPresenter(MainView mainView, GetComicsFromCharacterUseCase getComicsFromCharacterUseCase, Images images) {
         super(mainView);
         this.images = images;
-        RequestConsumer<Comic> requestConsumer = new RequestConsumer<>(this);
-        comicsRequest = new ComicsRequest(marvelService, requestConsumer);
+
+        requestConsumer = new RequestConsumer<>(this);
+        this.getComicsFromCharacterUseCase = getComicsFromCharacterUseCase;
     }
 
     void load(int offset) {
@@ -44,7 +44,8 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
             getView().showLoadingAlert();
 
             Log.d(TAG, "loading more items..." + offset);
-            comicsRequest.execute(offset);
+            getComicsFromCharacterUseCase.setOffset(offset);
+            getComicsFromCharacterUseCase.execute(requestConsumer);
         }
     }
 
@@ -53,14 +54,13 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     }
 
     @Override
-    public void onResponse(ResponseWrapper.DataContainer<Comic> data) {
-        totalItems = data.getTotal();
-        List<Comic> results = data.getResults();
+    public void onResponse(List<Comic> data) {
+        totalItems = data.size();
 
         MainView view = getView();
         if (view.isShowingRetryMessage()) view.hideRetryMessage();
         view.dismisssLoadingAlert();
-        view.updateComics(results);
+        view.updateComics(data);
     }
 
     @Override
@@ -79,12 +79,12 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     }
 
 
-    public void init() {
+    void init() {
         isInitialized = true;
         getView().initializeComicsView(images);
     }
 
-    public void initWith(@NonNull List<Comic> comics) {
+    void initWith(@NonNull List<Comic> comics) {
         isInitialized = true;
         getView().initializeComicsViewWithComics(images, comics);
     }
