@@ -1,6 +1,6 @@
 package com.antonicastejon.marvelcharacters.views.main;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
+import com.antonicastejon.domain.business.entities.Comic;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BaseMvpView;
 

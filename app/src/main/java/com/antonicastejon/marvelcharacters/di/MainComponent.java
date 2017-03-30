@@ -1,6 +1,7 @@
 package com.antonicastejon.marvelcharacters.di;
 
 import com.antonicastejon.marvelcharacters.views.main.MainActivity;
+import com.antonicastejon.model.repository.api.NetModule;
 
 import dagger.Component;
 

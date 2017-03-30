@@ -14,10 +14,10 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.antonicastejon.domain.business.entities.Comic;
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.di.DaggerDetailComponent;
 import com.antonicastejon.marvelcharacters.di.DetailPresenterModule;
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BaseMvpActivity;
 
