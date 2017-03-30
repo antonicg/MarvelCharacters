@@ -7,29 +7,29 @@ import android.os.Parcelable;
  * Created by Antoni Castejón on 28/01/2017.
  */
 
-public class Image implements Parcelable {
+public class ImageRepository implements Parcelable {
     private String path;
     private String extension;
 
-    public Image(String path, String extension) {
+    public ImageRepository(String path, String extension) {
         this.path = path;
         this.extension = extension;
     }
 
-    protected Image(Parcel in) {
+    protected ImageRepository(Parcel in) {
         path = in.readString();
         extension = in.readString();
     }
 
-    public static final Creator<Image> CREATOR = new Creator<Image>() {
+    public static final Creator<ImageRepository> CREATOR = new Creator<ImageRepository>() {
         @Override
-        public Image createFromParcel(Parcel in) {
-            return new Image(in);
+        public ImageRepository createFromParcel(Parcel in) {
+            return new ImageRepository(in);
         }
 
         @Override
-        public Image[] newArray(int size) {
-            return new Image[size];
+        public ImageRepository[] newArray(int size) {
+            return new ImageRepository[size];
         }
     };
 

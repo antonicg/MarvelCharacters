@@ -4,7 +4,7 @@ import com.antonicastejon.model.repository.Constants;
 import com.antonicastejon.model.repository.api.MarvelApi;
 import com.antonicastejon.model.repository.api.ResponseWrapper;
 import com.antonicastejon.model.repository.crypt.MD5;
-import com.antonicastejon.model.repository.entities.Comic;
+import com.antonicastejon.model.repository.entities.ComicRepository;
 import com.antonicastejon.model.repository.services.base.Service;
 
 import javax.inject.Inject;
@@ -16,7 +16,7 @@ import io.reactivex.Flowable;
  * Created by Antoni Castejón on 27/01/2017.
  */
 
-public class MarvelService extends Service<Comic> {
+public class MarvelService extends Service<ComicRepository> {
 
     private final static String TAG = MarvelService.class.getName();
 
@@ -38,7 +38,7 @@ public class MarvelService extends Service<Comic> {
     }
 
     @Override
-    protected Flowable<ResponseWrapper<Comic>> executeService(long timeStamp, String hash) {
+    protected Flowable<ResponseWrapper<ComicRepository>> executeService(long timeStamp, String hash) {
         return marvelApi.getComicsFromCharacter(CAPTAIN_AMERICA_ID, timeStamp, getPublicKey(), hash, REQUEST_LIMIT, offset);
     }
 }

@@ -8,21 +8,21 @@ import java.util.List;
  * Created by Antoni Castejón on 28/01/2017.
  */
 
-public class Comic {
+public class ComicRepository {
     private int id;
     private String title;
     private String description;
     private int pageCount;
-    private Image thumbnail;
-    private List<Image> images;
+    private ImageRepository thumbnail;
+    private List<ImageRepository> imageRepositories;
 
-    protected Comic(Parcel in) {
+    protected ComicRepository(Parcel in) {
         id = in.readInt();
         title = in.readString();
         description = in.readString();
         pageCount = in.readInt();
-        thumbnail = in.readParcelable(Image.class.getClassLoader());
-        images = in.createTypedArrayList(Image.CREATOR);
+        thumbnail = in.readParcelable(ImageRepository.class.getClassLoader());
+        imageRepositories = in.createTypedArrayList(ImageRepository.CREATOR);
     }
 
     public int getId() {
@@ -57,19 +57,19 @@ public class Comic {
         this.pageCount = pageCount;
     }
 
-    public Image getThumbnail() {
+    public ImageRepository getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(Image thumbnail) {
+    public void setThumbnail(ImageRepository thumbnail) {
         this.thumbnail = thumbnail;
     }
 
-    public List<Image> getImages() {
-        return images;
+    public List<ImageRepository> getImageRepositories() {
+        return imageRepositories;
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    public void setImageRepositories(List<ImageRepository> imageRepositories) {
+        this.imageRepositories = imageRepositories;
     }
 }

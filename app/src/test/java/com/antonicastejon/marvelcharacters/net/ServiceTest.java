@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.antonicastejon.domain.RequestConsumer;
 import com.antonicastejon.model.repository.crypt.MD5;
-import com.antonicastejon.domain.utils.NetworkStateHelper;
+import com.antonicastejon.domain.helpers.NetworkStateHelper;
 import com.antonicastejon.model.repository.api.ResponseWrapper;
-import com.antonicastejon.model.repository.entities.Comic;
+import com.antonicastejon.model.repository.entities.ComicRepository;
 import com.antonicastejon.model.repository.services.base.Service;
 
 import org.junit.Before;
@@ -28,19 +28,19 @@ public class ServiceTest {
     @Mock
     MD5 md5;
     @Mock
-    RequestConsumer<Comic> requestConsumer;
+    RequestConsumer<ComicRepository> requestConsumer;
     @Mock
-    ResponseWrapper<Comic> responseMocked;
+    ResponseWrapper<ComicRepository> responseMocked;
 
-    private Service<Comic> service;
+    private Service<ComicRepository> service;
 
     @Before
     public void initializeTests() {
 //        MockitoAnnotations.initMocks(this);
 //
-//        service = new Service<Comic>(md5, "", "") {
+//        service = new Service<ComicRepository>(md5, "", "") {
 //            @Override
-//            protected Flowable<ResponseWrapper<Comic>> executeService(long timeStamp, String hash) {
+//            protected Flowable<ResponseWrapper<ComicRepository>> executeService(long timeStamp, String hash) {
 //                try {
 //                    requestConsumer.accept(responseMocked);
 //                } catch (Exception e) {

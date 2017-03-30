@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.antonicastejon.domain.RequestConsumer;
-import com.antonicastejon.domain.utils.NetworkStateHelper;
+import com.antonicastejon.domain.helpers.NetworkStateHelper;
 import com.antonicastejon.model.repository.entities.errors.NoInternetException;
 import com.antonicastejon.model.repository.entities.errors.ResponseError;
 

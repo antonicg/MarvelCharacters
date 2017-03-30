@@ -1,4 +1,4 @@
-package com.antonicastejon.domain.utils;
+package com.antonicastejon.domain.helpers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
