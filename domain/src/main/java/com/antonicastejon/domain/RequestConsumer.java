@@ -1,7 +1,5 @@
 package com.antonicastejon.domain;
 
-import com.antonicastejon.model.repository.api.ResponseWrapper;
-
 import io.reactivex.functions.Consumer;
 
 /**

@@ -30,7 +30,7 @@ public class GetComicsFromCharacterUseCase extends UseCase<List<Comic>> {
     private int totalItems;
 
     @Inject
-    public GetComicsFromCharacterUseCase() {}
+    GetComicsFromCharacterUseCase() {}
 
     @Override
     protected void executeRequest(RequestConsumer<List<Comic>> callback) {

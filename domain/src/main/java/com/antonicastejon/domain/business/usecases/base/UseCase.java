@@ -4,9 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.antonicastejon.domain.RequestConsumer;
+import com.antonicastejon.domain.utils.NetworkStateHelper;
 import com.antonicastejon.model.repository.entities.errors.NoInternetException;
 import com.antonicastejon.model.repository.entities.errors.ResponseError;
-import com.antonicastejon.domain.utils.NetworkStateHelper;
 
 import javax.inject.Inject;
 
@@ -21,7 +21,7 @@ public abstract class UseCase<T> {
     protected abstract void executeRequest(RequestConsumer<T> callback);
 
     @Inject
-    protected Context appContext;
+    Context appContext;
 
     @Inject
     NetworkStateHelper networkStateHelper;

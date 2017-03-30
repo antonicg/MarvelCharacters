@@ -18,7 +18,7 @@ import io.reactivex.functions.Function;
 public class ComicMapper implements Function<ResponseWrapper<Comic>, List<com.antonicastejon.domain.business.entities.Comic>> {
 
     @Inject
-    public ComicMapper() {}
+    ComicMapper() {}
 
     @Override
     public List<com.antonicastejon.domain.business.entities.Comic> apply(ResponseWrapper<Comic> comicResponseWrapper) throws Exception {

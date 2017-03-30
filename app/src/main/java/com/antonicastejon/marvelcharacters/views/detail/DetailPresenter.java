@@ -3,7 +3,6 @@ package com.antonicastejon.marvelcharacters.views.detail;
 import android.support.annotation.NonNull;
 
 import com.antonicastejon.domain.business.entities.Comic;
-import com.antonicastejon.domain.helpers.ComicHelper;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BasePresenter;
 

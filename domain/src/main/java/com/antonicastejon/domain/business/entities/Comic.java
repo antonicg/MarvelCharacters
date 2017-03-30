@@ -3,8 +3,6 @@ package com.antonicastejon.domain.business.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 /**
  * Created by Antoni Castejón on 30/03/2017.
  */
