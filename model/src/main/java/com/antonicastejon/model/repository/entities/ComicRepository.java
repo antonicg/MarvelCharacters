@@ -14,7 +14,7 @@ public class ComicRepository {
     private String description;
     private int pageCount;
     private ImageRepository thumbnail;
-    private List<ImageRepository> imageRepositories;
+    private List<ImageRepository> images;
 
     protected ComicRepository(Parcel in) {
         id = in.readInt();
@@ -22,7 +22,7 @@ public class ComicRepository {
         description = in.readString();
         pageCount = in.readInt();
         thumbnail = in.readParcelable(ImageRepository.class.getClassLoader());
-        imageRepositories = in.createTypedArrayList(ImageRepository.CREATOR);
+        images = in.createTypedArrayList(ImageRepository.CREATOR);
     }
 
     public int getId() {
@@ -66,10 +66,10 @@ public class ComicRepository {
     }
 
     public List<ImageRepository> getImageRepositories() {
-        return imageRepositories;
+        return images;
     }
 
     public void setImageRepositories(List<ImageRepository> imageRepositories) {
-        this.imageRepositories = imageRepositories;
+        this.images = imageRepositories;
     }
 }
