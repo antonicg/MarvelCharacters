@@ -55,7 +55,7 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
 
     @Override
     public void onResponse(List<Comic> data) {
-        totalItems = data.size();
+        totalItems = getComicsFromCharacterUseCase != null ? getComicsFromCharacterUseCase.getTotalItems() : 0;
 
         MainView view = getView();
         if (view.isShowingRetryMessage()) view.hideRetryMessage();

@@ -1,8 +1,11 @@
 package com.antonicastejon.domain.business.usecases;
 
+import android.support.annotation.NonNull;
+
 import com.antonicastejon.domain.RequestConsumer;
 import com.antonicastejon.domain.business.entities.Comic;
 import com.antonicastejon.domain.business.usecases.base.UseCase;
+import com.antonicastejon.model.repository.api.ResponseWrapper;
 import com.antonicastejon.model.repository.services.MarvelService;
 
 import java.util.List;
@@ -24,6 +27,8 @@ public class GetComicsFromCharacterUseCase extends UseCase<List<Comic>> {
     @Inject
     ComicMapper comicMapper;
 
+    private int totalItems;
+
     @Inject
     public GetComicsFromCharacterUseCase() {}
 
@@ -31,6 +36,7 @@ public class GetComicsFromCharacterUseCase extends UseCase<List<Comic>> {
     protected void executeRequest(RequestConsumer<List<Comic>> callback) {
         marvelService.execute()
                 .subscribeOn(Schedulers.io())
+                .map(this::setTotalItems)
                 .map(comicMapper)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback, throwable -> onError(throwable, callback));
@@ -38,5 +44,16 @@ public class GetComicsFromCharacterUseCase extends UseCase<List<Comic>> {
 
     public void setOffset(int offset) {
         marvelService.setOffset(offset);
+    }
+
+    private ResponseWrapper<com.antonicastejon.model.repository.entities.Comic> setTotalItems(@NonNull ResponseWrapper<com.antonicastejon.model.repository.entities.Comic> response) {
+        ResponseWrapper.DataContainer<?> data = response.getData();
+        if (data != null) this.totalItems = data.getTotal();
+        else this.totalItems = 0;
+        return response;
+    }
+
+    public int getTotalItems() {
+        return totalItems;
     }
 }
