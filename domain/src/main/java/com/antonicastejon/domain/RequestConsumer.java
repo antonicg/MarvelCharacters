@@ -22,7 +22,7 @@ public class RequestConsumer<T> implements Consumer<T> {
     }
 
     @Override
-    public void accept(T response) throws Exception {
+    public void accept(T response) {
         callback.onResponse(response);
     }
 

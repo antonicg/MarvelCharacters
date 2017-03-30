@@ -21,7 +21,7 @@ public class MarvelService extends Service<ComicRepository> {
     private final static String TAG = MarvelService.class.getName();
 
     private final static int REQUEST_LIMIT = 20;
-    public static final int CAPTAIN_AMERICA_ID = 1009220;
+    private static final long CAPTAIN_AMERICA_ID = 1009220L;
 
     private MarvelApi marvelApi;
 
