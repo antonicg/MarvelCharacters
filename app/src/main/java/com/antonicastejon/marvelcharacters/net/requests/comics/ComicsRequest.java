@@ -1,8 +1,8 @@
 package com.antonicastejon.marvelcharacters.net.requests.comics;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
 import com.antonicastejon.marvelcharacters.net.services.MarvelService;
+import com.antonicastejon.model.repository.entities.Comic;
 
 /**
  * Created by Antoni Castejón on 28/01/2017.

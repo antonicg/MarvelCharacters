@@ -1,8 +1,8 @@
 package com.antonicastejon.marvelcharacters.net;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
-import com.antonicastejon.marvelcharacters.net.response.ResponseWrapper;
+import com.antonicastejon.model.repository.api.ResponseWrapper;
+import com.antonicastejon.model.repository.entities.Comic;
 
 import org.junit.Before;
 import org.junit.Test;

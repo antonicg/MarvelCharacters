@@ -2,10 +2,10 @@ package com.antonicastejon.marvelcharacters.views.detail;
 
 import android.support.annotation.NonNull;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.model.helpers.ComicHelper;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BasePresenter;
+import com.antonicastejon.model.repository.entities.Comic;
 
 /**
  * Created by Antoni Castejón on 28/01/2017.

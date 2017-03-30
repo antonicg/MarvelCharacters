@@ -1,7 +1,7 @@
 package com.antonicastejon.marvelcharacters.model.helpers;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
-import com.antonicastejon.marvelcharacters.model.Image;
+import com.antonicastejon.model.repository.entities.Comic;
+import com.antonicastejon.model.repository.entities.Image;
 
 import org.junit.Before;
 import org.junit.Test;

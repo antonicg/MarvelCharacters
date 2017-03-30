@@ -2,11 +2,12 @@ package com.antonicastejon.marvelcharacters.net.services;
 
 import android.content.Context;
 
-import com.antonicastejon.marvelcharacters.Constants;
-import com.antonicastejon.marvelcharacters.model.Comic;
+import com.antonicastejon.model.repository.Constants;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
-import com.antonicastejon.marvelcharacters.utils.crypt.MD5;
+import com.antonicastejon.model.repository.crypt.MD5;
 import com.antonicastejon.marvelcharacters.utils.network.NetworkStateHelper;
+import com.antonicastejon.model.repository.api.MarvelApi;
+import com.antonicastejon.model.repository.entities.Comic;
 
 import javax.inject.Inject;
 import javax.inject.Named;

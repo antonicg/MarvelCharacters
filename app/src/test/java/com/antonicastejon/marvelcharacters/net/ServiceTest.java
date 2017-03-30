@@ -2,12 +2,12 @@ package com.antonicastejon.marvelcharacters.net;
 
 import android.content.Context;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
-import com.antonicastejon.marvelcharacters.net.response.ResponseWrapper;
 import com.antonicastejon.marvelcharacters.net.services.Service;
-import com.antonicastejon.marvelcharacters.utils.crypt.MD5;
+import com.antonicastejon.model.repository.crypt.MD5;
 import com.antonicastejon.marvelcharacters.utils.network.NetworkStateHelper;
+import com.antonicastejon.model.repository.api.ResponseWrapper;
+import com.antonicastejon.model.repository.entities.Comic;
 
 import org.junit.Before;
 import org.junit.Test;

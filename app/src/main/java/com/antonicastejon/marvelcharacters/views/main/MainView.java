@@ -1,8 +1,8 @@
 package com.antonicastejon.marvelcharacters.views.main;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BaseMvpView;
+import com.antonicastejon.model.repository.entities.Comic;
 
 import java.util.List;
 

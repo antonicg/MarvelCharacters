@@ -1,6 +1,6 @@
 package com.antonicastejon.marvelcharacters.net.requests.base;
 
-import com.antonicastejon.marvelcharacters.net.response.ResponseWrapper;
+import com.antonicastejon.model.repository.api.ResponseWrapper;
 
 import io.reactivex.functions.Consumer;
 

@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.antonicastejon.marvelcharacters.R;
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.model.helpers.ComicHelper;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
+import com.antonicastejon.model.repository.entities.Comic;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,9 +2,9 @@ package com.antonicastejon.marvelcharacters.model.helpers;
 
 import android.support.annotation.NonNull;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
-import com.antonicastejon.marvelcharacters.model.Image;
 import com.antonicastejon.marvelcharacters.utils.random.RandomUtils;
+import com.antonicastejon.model.repository.entities.Comic;
+import com.antonicastejon.model.repository.entities.Image;
 
 import java.util.List;
 

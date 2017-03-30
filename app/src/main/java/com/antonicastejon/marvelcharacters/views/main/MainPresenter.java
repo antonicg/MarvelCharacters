@@ -3,13 +3,13 @@ package com.antonicastejon.marvelcharacters.views.main;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.antonicastejon.marvelcharacters.model.Comic;
 import com.antonicastejon.marvelcharacters.net.requests.base.RequestConsumer;
 import com.antonicastejon.marvelcharacters.net.requests.comics.ComicsRequest;
-import com.antonicastejon.marvelcharacters.net.response.ResponseWrapper;
+import com.antonicastejon.model.repository.api.ResponseWrapper;
 import com.antonicastejon.marvelcharacters.net.services.MarvelService;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BasePresenter;
+import com.antonicastejon.model.repository.entities.Comic;
 
 import java.util.List;
 
