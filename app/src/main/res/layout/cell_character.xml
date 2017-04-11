@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,7 +17,13 @@
             android:transitionName="@string/transition_detail_image"
             tools:targetApi="lollipop" />
 
-    </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_favorite_border_black_24dp"
+            android:layout_gravity="bottom|right"
+            android:padding="@dimen/content_padding"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/text"

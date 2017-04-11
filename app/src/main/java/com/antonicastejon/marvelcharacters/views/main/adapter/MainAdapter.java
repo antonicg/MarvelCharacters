@@ -52,7 +52,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
 
     @Override
     public ComicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_comic, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_character, parent, false);
         return new ComicViewHolder(view);
     }
 
