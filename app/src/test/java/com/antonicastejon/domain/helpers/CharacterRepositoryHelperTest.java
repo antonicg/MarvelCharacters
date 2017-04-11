@@ -1,6 +1,6 @@
 package com.antonicastejon.domain.helpers;
 
-import com.antonicastejon.model.repository.entities.ComicRepository;
+import com.antonicastejon.model.repository.entities.CharacterRepository;
 import com.antonicastejon.model.repository.entities.ImageRepository;
 
 import org.junit.Before;
@@ -18,12 +18,12 @@ import static org.mockito.Mockito.when;
  * Created by Antoni Castejón on 29/01/2017.
  */
 
-public class ComicRepositoryHelperTest {
+public class CharacterRepositoryHelperTest {
 
     private static final int SIZE_IMAGES = 1;
 
     @Mock
-    ComicRepository comicRepository;
+    CharacterRepository characterRepository;
     @Mock
     ImageRepository imageRepository;
     @Mock
@@ -34,28 +34,28 @@ public class ComicRepositoryHelperTest {
     public void initializeTests() {
         MockitoAnnotations.initMocks(this);
 
-        when(comicRepository.getThumbnail()).thenReturn(imageRepository);
+        when(characterRepository.getThumbnail()).thenReturn(imageRepository);
         when(imageRepository.getPath()).thenReturn("");
         when(imageRepository.getExtension()).thenReturn("");
-        when(comicRepository.getImageRepositories()).thenReturn(imageRepositories);
+        when(characterRepository.getImageRepositories()).thenReturn(imageRepositories);
         when(imageRepositories.get(anyInt())).thenReturn(imageRepository);
         when(imageRepositories.size()).thenReturn(SIZE_IMAGES);
     }
 
     @Test
     public void testGetThumbnailUrl() {
-        ComicRepositoryHelper.getThumbnailUrl(comicRepository);
+        RepositoryHelper.getThumbnailUrl(characterRepository);
 
-        verify(comicRepository).getThumbnail();
+        verify(characterRepository).getThumbnail();
         verify(imageRepository).getPath();
         verify(imageRepository).getExtension();
     }
 
     @Test
     public void testGetRandomImageUrl() {
-        ComicRepositoryHelper.getRandomImageUrl(comicRepository);
+        RepositoryHelper.getRandomImageUrl(characterRepository);
 
-        verify(comicRepository).getImageRepositories();
+        verify(characterRepository).getImageRepositories();
         verify(imageRepositories).get(anyInt());
         verify(imageRepository).getPath();
         verify(imageRepository).getExtension();

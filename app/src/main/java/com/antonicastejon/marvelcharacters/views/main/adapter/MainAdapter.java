@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.antonicastejon.domain.business.entities.Comic;
+import com.antonicastejon.domain.business.entities.Character;
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 
@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolder> {
 
     public interface ItemPressedListener {
-        void onComicPressed(Comic comic, View transitionView);
+        void onCharacterPressed(Character character, View transitionView);
     }
-    private final List<Comic> data;
+    private final List<Character> data;
     private final ItemPressedListener itemPressedListener;
     private final Images images;
 
@@ -37,11 +37,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
         this.images = images;
     }
 
-    public List<Comic> getData() {
+    public List<Character> getData() {
         return data;
     }
 
-    public void update(@NonNull List<Comic> data) {
+    public void update(@NonNull List<Character> data) {
         this.data.addAll(data);
 
         int dataSize = this.data.size();
@@ -58,11 +58,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
 
     @Override
     public void onBindViewHolder(ComicViewHolder holder, int position) {
-        Comic comic = data.get(position);
-        String imageUrl = comic.getThumbnailUrl();
+        Character character = data.get(position);
+        String imageUrl = character.getThumbnailUrl();
         if (imageUrl != null) images.loadForCell(imageUrl, holder.imageView);
-        holder.textView.setText(comic.getTitle());
-        holder.itemView.setOnClickListener(view -> itemPressedListener.onComicPressed(comic, holder.imageView));
+        holder.textView.setText(character.getTitle());
+        holder.itemView.setOnClickListener(view -> itemPressedListener.onCharacterPressed(character, holder.imageView));
     }
 
     @Override
