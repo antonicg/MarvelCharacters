@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.antonicastejon.domain.business.entities.Comic;
+import com.antonicastejon.domain.business.entities.Character;
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.di.DaggerDetailComponent;
 import com.antonicastejon.marvelcharacters.di.DetailPresenterModule;
@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends BaseMvpActivity implements DetailView {
 
-    private final static String COMIC_EXTRA = "comic";
+    private final static String CHARACTER_EXTRA = "character";
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -48,9 +48,9 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     @Inject
     DetailPresenter presenter;
 
-    public static Intent getIntent(AppCompatActivity activity, Comic comic) {
+    public static Intent getIntent(AppCompatActivity activity, Character character) {
         Intent intent = new Intent(activity, DetailActivity.class);
-        intent.putExtra(COMIC_EXTRA, comic);
+        intent.putExtra(CHARACTER_EXTRA, character);
         return intent;
     }
 
@@ -62,7 +62,7 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
         injectDependencies();
 
         initCollapsingToolbarLayout();
-        showComicFromExtras();
+        showCharacterFromExtras();
     }
 
     private void injectDependencies() {
@@ -87,11 +87,11 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     }
 
 
-    private void showComicFromExtras() {
+    private void showCharacterFromExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            Comic comic = extras.getParcelable(COMIC_EXTRA);
-            if (comic != null) presenter.showComic(comic);
+            Character character = extras.getParcelable(CHARACTER_EXTRA);
+            if (character != null) presenter.show(character);
         }
     }
 
@@ -125,10 +125,5 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     @Override
     public void showImage(Images images, String urlImage) {
         images.loadForDetail(urlImage, imageView);
-    }
-
-    @Override
-    public void showPages(int pages) {
-        textViewPages.setText(getResources().getQuantityString(R.plurals.pages, pages, pages));
     }
 }

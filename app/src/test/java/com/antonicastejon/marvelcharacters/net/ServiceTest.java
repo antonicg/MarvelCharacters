@@ -3,17 +3,15 @@ package com.antonicastejon.marvelcharacters.net;
 import android.content.Context;
 
 import com.antonicastejon.domain.RequestConsumer;
-import com.antonicastejon.model.repository.crypt.MD5;
 import com.antonicastejon.domain.helpers.NetworkStateHelper;
 import com.antonicastejon.model.repository.api.ResponseWrapper;
-import com.antonicastejon.model.repository.entities.ComicRepository;
+import com.antonicastejon.model.repository.crypt.MD5;
+import com.antonicastejon.model.repository.entities.CharacterRepository;
 import com.antonicastejon.model.repository.services.base.Service;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Created by Antoni Castejón on 29/01/2017.
@@ -28,19 +26,19 @@ public class ServiceTest {
     @Mock
     MD5 md5;
     @Mock
-    RequestConsumer<ComicRepository> requestConsumer;
+    RequestConsumer<CharacterRepository> requestConsumer;
     @Mock
-    ResponseWrapper<ComicRepository> responseMocked;
+    ResponseWrapper<CharacterRepository> responseMocked;
 
-    private Service<ComicRepository> service;
+    private Service<CharacterRepository> service;
 
     @Before
     public void initializeTests() {
 //        MockitoAnnotations.initMocks(this);
 //
-//        service = new Service<ComicRepository>(md5, "", "") {
+//        service = new Service<CharacterRepository>(md5, "", "") {
 //            @Override
-//            protected Flowable<ResponseWrapper<ComicRepository>> executeService(long timeStamp, String hash) {
+//            protected Flowable<ResponseWrapper<CharacterRepository>> executeService(long timeStamp, String hash) {
 //                try {
 //                    requestConsumer.accept(responseMocked);
 //                } catch (Exception e) {

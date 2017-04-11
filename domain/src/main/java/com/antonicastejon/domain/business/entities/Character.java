@@ -7,41 +7,35 @@ import android.os.Parcelable;
  * Created by Antoni Castejón on 30/03/2017.
  */
 
-public class Comic implements Parcelable {
+public class Character implements Parcelable {
     private int id;
     private String title;
     private String description;
-    private int pageCount;
     private String thumbnailUrl;
-    private String randomImageUrl;
 
-    public Comic(int id, String title, String description, int pageCount, String thumbnailUrl, String randomImageUrl) {
+    public Character(int id, String title, String description, int pageCount, String thumbnailUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.pageCount = pageCount;
         this.thumbnailUrl = thumbnailUrl;
-        this.randomImageUrl = randomImageUrl;
     }
 
-    protected Comic(Parcel in) {
+    protected Character(Parcel in) {
         id = in.readInt();
         title = in.readString();
         description = in.readString();
-        pageCount = in.readInt();
         thumbnailUrl = in.readString();
-        randomImageUrl = in.readString();
     }
 
-    public static final Creator<Comic> CREATOR = new Creator<Comic>() {
+    public static final Creator<Character> CREATOR = new Creator<Character>() {
         @Override
-        public Comic createFromParcel(Parcel in) {
-            return new Comic(in);
+        public Character createFromParcel(Parcel in) {
+            return new Character(in);
         }
 
         @Override
-        public Comic[] newArray(int size) {
-            return new Comic[size];
+        public Character[] newArray(int size) {
+            return new Character[size];
         }
     };
 
@@ -55,9 +49,7 @@ public class Comic implements Parcelable {
         parcel.writeInt(id);
         parcel.writeString(title);
         parcel.writeString(description);
-        parcel.writeInt(pageCount);
         parcel.writeString(thumbnailUrl);
-        parcel.writeString(randomImageUrl);
     }
 
     public int getId() {
@@ -72,15 +64,7 @@ public class Comic implements Parcelable {
         return description;
     }
 
-    public int getPageCount() {
-        return pageCount;
-    }
-
     public String getThumbnailUrl() {
         return thumbnailUrl;
-    }
-
-    public String getRandomImageUrl() {
-        return randomImageUrl;
     }
 }

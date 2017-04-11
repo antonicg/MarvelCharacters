@@ -2,7 +2,7 @@ package com.antonicastejon.marvelcharacters.views.detail;
 
 import android.support.annotation.NonNull;
 
-import com.antonicastejon.domain.business.entities.Comic;
+import com.antonicastejon.domain.business.entities.Character;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BasePresenter;
 
@@ -19,11 +19,10 @@ public class DetailPresenter extends BasePresenter<DetailView> {
         this.images = images;
     }
 
-    public void showComic(@NonNull Comic comic) {
+    public void show(@NonNull Character character) {
         DetailView view = getView();
-        view.showTitle(comic.getTitle());
-        view.showDescription(comic.getDescription());
-        view.showPages(comic.getPageCount());
-        view.showImage(images, comic.getRandomImageUrl());
+        view.showTitle(character.getTitle());
+        view.showDescription(character.getDescription());
+        view.showImage(images, character.getThumbnailUrl());
     }
 }
