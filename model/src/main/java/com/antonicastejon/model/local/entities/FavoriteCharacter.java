@@ -13,7 +13,12 @@ public class FavoriteCharacter extends RealmObject {
     public FavoriteCharacter() {
         id = Long.MIN_VALUE;
     }
+
     public FavoriteCharacter(long id) {
         this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }

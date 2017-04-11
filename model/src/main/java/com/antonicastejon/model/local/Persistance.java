@@ -41,7 +41,7 @@ public class Persistance<T extends RealmObject> {
     }
 
     public void saveAsync(Realm realm, T object) {
-        realm.executeTransaction(r -> r.copyToRealmOrUpdate(object));
+        realm.executeTransaction(r -> r.copyToRealm(object));
     }
 
     public void deleteAsync(Realm realm, final Class<T> fromDataClass, long idToDelete) {
@@ -49,7 +49,7 @@ public class Persistance<T extends RealmObject> {
             T toDelete = r.where(fromDataClass)
                     .equalTo(PersistanceFields.ID, idToDelete)
                     .findFirst();
-            toDelete.deleteFromRealm();
+            if (toDelete != null) toDelete.deleteFromRealm();
         });
     }
 }

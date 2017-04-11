@@ -22,7 +22,8 @@ public class Character implements Parcelable {
     }
 
     protected Character(Parcel in) {
-        id = in.readInt();
+        isFavorite = in.readByte() == 1;
+        id = in.readLong();
         title = in.readString();
         description = in.readString();
         thumbnailUrl = in.readString();
@@ -47,6 +48,7 @@ public class Character implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeByte((byte) (isFavorite ? 1 : 0));
         parcel.writeLong(id);
         parcel.writeString(title);
         parcel.writeString(description);

@@ -194,6 +194,6 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
 
     @Override
     public void onFavPressed(int pos, Character character) {
-        presenter.markAsFavorite(pos, character);
+        presenter.changeFavoriteStateAndSave(pos, character);
     }
 }

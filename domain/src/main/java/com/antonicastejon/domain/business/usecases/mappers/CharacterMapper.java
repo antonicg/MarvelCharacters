@@ -49,7 +49,15 @@ public class CharacterMapper implements Function<ResponseWrapper<CharacterReposi
 
     private void checkIfCharactersAreFavorites(List<Character> businessCharacters) {
         Long[] ids = constructIdArrayFrom(businessCharacters);
-        persistance.findAllInIds(Realm.getDefaultInstance(), FavoriteCharacter.class, ids);
+        List<FavoriteCharacter> allInIds = persistance.findAllInIds(Realm.getDefaultInstance(), FavoriteCharacter.class, ids);
+        for (FavoriteCharacter favoriteCharacter : allInIds) {
+            for (Character businessCharacter : businessCharacters) {
+                if (favoriteCharacter.getId() == businessCharacter.getId()) {
+                    businessCharacter.setFavorite(true);
+                    break;
+                }
+            }
+        }
     }
 
     private Long[] constructIdArrayFrom(List<Character> businessCharacters) {
