@@ -4,4 +4,5 @@
     <string name="error_loading">There was an error :(</string>
     <string name="retry">Retry?</string>
     <string name="my_name">Antoni Castejón</string>
+    <string name="favorite">favorite</string>
 </resources>

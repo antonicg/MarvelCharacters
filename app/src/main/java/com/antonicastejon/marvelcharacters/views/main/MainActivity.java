@@ -36,6 +36,7 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
 
     private final static String KEY_BUNDLE_CHARACTERS = "characters";
     private final static String KEY_BUNDLE_CURRENT_PAGE = "page";
+    private final static int REQUEST_CODE_DETAIL = 1;
 
     private final static int START_OFFSET = 0;
     private final static int GRID_SPAN_PORTRAIT = 2;
@@ -101,6 +102,26 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
 
     private void load(int offset) {
         presenter.load(offset);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_DETAIL) {
+                updateCurrentPositionFrom(data);
+            }
+        }
+    }
+
+    private void updateCurrentPositionFrom(Intent data) {
+        int posToUpdate = presenter.getCurrentPositionPressedAndClean();
+        if (data != null && posToUpdate >= 0) {
+            Character character = data.getParcelableExtra(DetailActivity.KEY_EXTRA_CHARACTER);
+            if (adapter != null && character != null) {
+                adapter.update(posToUpdate, character);
+            }
+        }
     }
 
     @Override
@@ -180,11 +201,22 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     }
 
     @Override
-    public void onCharacterPressed(Character character, View transitionView) {
+    public void refreshItem(int pos) {
+        if (adapter != null) adapter.notifyItemChanged(pos);
+    }
+
+    @Override
+    public void onCharacterPressed(int position, Character character, View transitionView) {
+        presenter.onCharacterPositionPressed(position);
+
         Intent intent = DetailActivity.getIntent(this, character);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, transitionView, getString(R.string.transition_detail_image));
-        startActivity(intent, options.toBundle());
+        startActivityForResult(intent, REQUEST_CODE_DETAIL, options.toBundle());
+    }
 
+    @Override
+    public void onFavPressed(int pos, Character character) {
+        presenter.changeFavoriteStateAndSave(pos, character);
     }
 }

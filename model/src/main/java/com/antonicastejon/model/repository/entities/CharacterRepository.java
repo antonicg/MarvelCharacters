@@ -9,21 +9,13 @@ import java.util.List;
  */
 
 public class CharacterRepository {
-    private int id;
+    private long id;
     private String name;
     private String description;
     private int pageCount;
     private ImageRepository thumbnail;
 
-    protected CharacterRepository(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        description = in.readString();
-        pageCount = in.readInt();
-        thumbnail = in.readParcelable(ImageRepository.class.getClassLoader());
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 

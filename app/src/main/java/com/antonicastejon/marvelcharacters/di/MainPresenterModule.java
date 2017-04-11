@@ -1,6 +1,7 @@
 package com.antonicastejon.marvelcharacters.di;
 
 import com.antonicastejon.domain.business.usecases.GetCharactersUseCase;
+import com.antonicastejon.domain.helpers.CharactersPersistance;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.main.MainPresenter;
 import com.antonicastejon.marvelcharacters.views.main.MainView;
@@ -22,7 +23,7 @@ public class MainPresenterModule {
     }
 
     @Provides
-    MainPresenter providesMainPresenter(GetCharactersUseCase getCharactersUseCase, Images images) {
-        return new MainPresenter(mainView, getCharactersUseCase, images);
+    MainPresenter providesMainPresenter(GetCharactersUseCase getCharactersUseCase, Images images, CharactersPersistance persistance) {
+        return new MainPresenter(mainView, getCharactersUseCase, images, persistance);
     }
 }

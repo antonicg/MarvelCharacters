@@ -6,6 +6,7 @@ import android.util.Log;
 import com.antonicastejon.domain.RequestConsumer;
 import com.antonicastejon.domain.business.entities.Character;
 import com.antonicastejon.domain.business.usecases.GetCharactersUseCase;
+import com.antonicastejon.domain.helpers.CharactersPersistance;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BasePresenter;
 
@@ -22,16 +23,21 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     private final GetCharactersUseCase getCharactersUseCase;
     private final RequestConsumer<List<Character>> requestConsumer;
     private final Images images;
+    private final CharactersPersistance persistance;
+    private int currentPositionPressed;
 
     private boolean isInitialized;
     private int totalItems;
 
-    public MainPresenter(MainView mainView, GetCharactersUseCase getCharactersUseCase, Images images) {
+    public MainPresenter(MainView mainView, GetCharactersUseCase getCharactersUseCase, Images images, CharactersPersistance persistance) {
         super(mainView);
         this.images = images;
+        this.persistance = persistance;
 
         requestConsumer = new RequestConsumer<>(this);
         this.getCharactersUseCase = getCharactersUseCase;
+
+        this.currentPositionPressed = -1;
     }
 
     void load(int offset) {
@@ -87,5 +93,21 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     void initWith(@NonNull List<Character> characters) {
         isInitialized = true;
         getView().initializeCharactersViewWith(images, characters);
+    }
+
+    public void changeFavoriteStateAndSave(int pos, Character character) {
+        character.setFavorite(!character.isFavorite());
+        persistance.saveFavoriteState(character);
+        getView().refreshItem(pos);
+    }
+
+    public void onCharacterPositionPressed(int position) {
+        this.currentPositionPressed = position;
+    }
+
+    public int getCurrentPositionPressedAndClean() {
+        int pos = currentPositionPressed;
+        this.currentPositionPressed = Integer.MIN_VALUE;
+        return pos;
     }
 }

@@ -22,10 +22,11 @@ import butterknife.ButterKnife;
  * Created by Antoni Castejón on 28/01/2017.
  */
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CharacterViewHolder> {
 
     public interface ItemPressedListener {
-        void onCharacterPressed(Character character, View transitionView);
+        void onCharacterPressed(int pos, Character character, View transitionView);
+        void onFavPressed(int pos, Character character);
     }
     private final List<Character> data;
     private final ItemPressedListener itemPressedListener;
@@ -46,23 +47,34 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
 
         int dataSize = this.data.size();
         int startRange = dataSize - data.size();
-        int endRange = dataSize;
-        notifyItemRangeInserted(startRange, endRange);
+        notifyItemRangeInserted(startRange, dataSize);
+    }
+
+    public void update(int posToUpdate, Character character) {
+        data.set(posToUpdate, character);
+        notifyItemChanged(posToUpdate);
     }
 
     @Override
-    public ComicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_comic, parent, false);
-        return new ComicViewHolder(view);
+    public CharacterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_character, parent, false);
+        return new CharacterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ComicViewHolder holder, int position) {
+    public void onBindViewHolder(CharacterViewHolder holder, int position) {
         Character character = data.get(position);
+
         String imageUrl = character.getThumbnailUrl();
         if (imageUrl != null) images.loadForCell(imageUrl, holder.imageView);
+
         holder.textView.setText(character.getTitle());
-        holder.itemView.setOnClickListener(view -> itemPressedListener.onCharacterPressed(character, holder.imageView));
+
+        int favRes = character.isFavorite() ? R.drawable.ic_favorite_black_24dp : R.drawable.ic_favorite_border_black_24dp;
+        holder.imageFav.setImageResource(favRes);
+
+        holder.itemView.setOnClickListener(view -> itemPressedListener.onCharacterPressed(position, character, holder.imageView));
+        holder.imageFav.setOnClickListener(view -> itemPressedListener.onFavPressed(position, character));
     }
 
     @Override
@@ -70,7 +82,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
         return data.size();
     }
 
-    public class ComicViewHolder extends RecyclerView.ViewHolder {
+    public class CharacterViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.img)
         ImageView imageView;
@@ -78,9 +90,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ComicViewHolde
         @BindView(R.id.text)
         TextView textView;
 
+        @BindView(R.id.fav)
+        ImageView imageFav;
+
         View itemView;
 
-        public ComicViewHolder(View itemView) {
+        public CharacterViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.itemView = itemView;
