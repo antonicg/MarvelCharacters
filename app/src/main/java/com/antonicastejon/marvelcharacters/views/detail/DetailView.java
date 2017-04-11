@@ -12,4 +12,5 @@ public interface DetailView extends BaseMvpView {
     void showTitle(String title);
     void showDescription(String description);
     void showImage(Images images, String urlImage);
+    void showIsFavorite();
 }

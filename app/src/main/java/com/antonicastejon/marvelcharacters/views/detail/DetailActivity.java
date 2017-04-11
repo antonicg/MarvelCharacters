@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +34,7 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends BaseMvpActivity implements DetailView {
 
+    public final static String KEY_EXTRA_CHARACTER = "character";
     private final static String CHARACTER_EXTRA = "character";
 
     @BindView(R.id.image)
@@ -96,14 +99,48 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.fav);
+        Character character = presenter.getCharacter();
+        item.setIcon(character != null && character.isFavorite() ? R.drawable.ic_favorite_black_24dp : R.drawable.ic_favorite_border_black_24dp);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.fav:
+                onFavPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int result = presenter.isFavoriteStateChanged() ? RESULT_OK : RESULT_CANCELED;
+        if (presenter.isFavoriteStateChanged()) {
+            Intent data = new Intent();
+            data.putExtra(KEY_EXTRA_CHARACTER, presenter.getCharacter());
+            setResult(RESULT_OK, data);
+        }
+        else setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void onFavPressed() {
+        presenter.markCharacterAsFavorite();
     }
 
     @Override
@@ -125,5 +162,10 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     @Override
     public void showImage(Images images, String urlImage) {
         images.loadForDetail(urlImage, imageView);
+    }
+
+    @Override
+    public void showIsFavorite() {
+        invalidateOptionsMenu();
     }
 }

@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CharacterViewHolder> {
 
     public interface ItemPressedListener {
-        void onCharacterPressed(Character character, View transitionView);
+        void onCharacterPressed(int pos, Character character, View transitionView);
         void onFavPressed(int pos, Character character);
     }
     private final List<Character> data;
@@ -50,6 +50,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CharacterViewH
         notifyItemRangeInserted(startRange, dataSize);
     }
 
+    public void update(int posToUpdate, Character character) {
+        data.set(posToUpdate, character);
+        notifyItemChanged(posToUpdate);
+    }
+
     @Override
     public CharacterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_character, parent, false);
@@ -68,7 +73,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CharacterViewH
         int favRes = character.isFavorite() ? R.drawable.ic_favorite_black_24dp : R.drawable.ic_favorite_border_black_24dp;
         holder.imageFav.setImageResource(favRes);
 
-        holder.itemView.setOnClickListener(view -> itemPressedListener.onCharacterPressed(character, holder.imageView));
+        holder.itemView.setOnClickListener(view -> itemPressedListener.onCharacterPressed(position, character, holder.imageView));
         holder.imageFav.setOnClickListener(view -> itemPressedListener.onFavPressed(position, character));
     }
 

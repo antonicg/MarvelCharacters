@@ -24,6 +24,7 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
     private final RequestConsumer<List<Character>> requestConsumer;
     private final Images images;
     private final CharactersPersistance persistance;
+    private int currentPositionPressed;
 
     private boolean isInitialized;
     private int totalItems;
@@ -35,6 +36,8 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
 
         requestConsumer = new RequestConsumer<>(this);
         this.getCharactersUseCase = getCharactersUseCase;
+
+        this.currentPositionPressed = -1;
     }
 
     void load(int offset) {
@@ -96,5 +99,15 @@ public class MainPresenter extends BasePresenter<MainView> implements RequestCon
         character.setFavorite(!character.isFavorite());
         persistance.saveFavoriteState(character);
         getView().refreshItem(pos);
+    }
+
+    public void onCharacterPositionPressed(int position) {
+        this.currentPositionPressed = position;
+    }
+
+    public int getCurrentPositionPressedAndClean() {
+        int pos = currentPositionPressed;
+        this.currentPositionPressed = Integer.MIN_VALUE;
+        return pos;
     }
 }
