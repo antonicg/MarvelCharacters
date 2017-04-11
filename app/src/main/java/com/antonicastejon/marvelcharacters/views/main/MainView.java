@@ -27,4 +27,6 @@ public interface MainView extends BaseMvpView {
     void hideRetryMessage();
 
     boolean isShowingRetryMessage();
+
+    void refreshItem(int pos);
 }

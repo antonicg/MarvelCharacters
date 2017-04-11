@@ -18,6 +18,7 @@
             tools:targetApi="lollipop" />
 
         <ImageView
+            android:id="@+id/fav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_favorite_border_black_24dp"

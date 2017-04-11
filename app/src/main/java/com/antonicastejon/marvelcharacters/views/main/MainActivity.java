@@ -180,11 +180,20 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     }
 
     @Override
+    public void refreshItem(int pos) {
+        if (adapter != null) adapter.notifyItemChanged(pos);
+    }
+
+    @Override
     public void onCharacterPressed(Character character, View transitionView) {
         Intent intent = DetailActivity.getIntent(this, character);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, transitionView, getString(R.string.transition_detail_image));
         startActivity(intent, options.toBundle());
+    }
 
+    @Override
+    public void onFavPressed(int pos, Character character) {
+        presenter.markAsFavorite(pos, character);
     }
 }

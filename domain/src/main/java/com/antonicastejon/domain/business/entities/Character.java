@@ -8,12 +8,13 @@ import android.os.Parcelable;
  */
 
 public class Character implements Parcelable {
-    private int id;
+    private long id;
     private String title;
     private String description;
     private String thumbnailUrl;
+    private boolean isFavorite;
 
-    public Character(int id, String title, String description, int pageCount, String thumbnailUrl) {
+    public Character(long id, String title, String description, String thumbnailUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,13 +47,13 @@ public class Character implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
+        parcel.writeLong(id);
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeString(thumbnailUrl);
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -66,5 +67,13 @@ public class Character implements Parcelable {
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
