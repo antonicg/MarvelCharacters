@@ -1,14 +1,12 @@
 package com.antonicastejon.model.local;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
@@ -27,29 +25,45 @@ public class Persistance<T extends RealmObject> {
     @Inject
     Persistance() {}
 
-    public T findData(Realm realm, final Class<T> fromDataClass, long id) {
-        return realm.where(fromDataClass).equalTo(PersistanceFields.ID, id).findFirst();
+    public T findData(final Class<T> fromDataClass, long id) {
+        Realm realm = Realm.getDefaultInstance();
+        T finded = realm.where(fromDataClass).equalTo(PersistanceFields.ID, id).findFirst();
+        realm.close();
+        return finded;
     }
 
-    public List<T> findAllInIds(Realm realm, final Class<T> fromDataClass, Long[] in) {
+    public List<T> findAllSync(Realm realm, final Class<T> fromDataClass, Long[] in) {
+        RealmResults<T> resultsFromRealm = realm.where(fromDataClass)
+                .in(PersistanceFields.ID, in)
+                .findAll();
 
-        RealmResults<T> allItems = realm.where(fromDataClass)
-                                            .in(PersistanceFields.ID, in)
-                                            .findAll();
-
-        return allItems.subList(0, allItems.size());
+        return resultsFromRealm.subList(0, resultsFromRealm.size());
     }
 
-    public void saveAsync(Realm realm, T object) {
-        realm.executeTransaction(r -> r.copyToRealm(object));
+    public void saveAsync(T object) {
+        Realm realm = null;
+        try {
+            realm = Realm.getDefaultInstance();
+            realm.executeTransaction(r -> r.copyToRealm(object));
+        }
+        finally {
+            if (realm != null) realm.close();
+        }
     }
 
-    public void deleteAsync(Realm realm, final Class<T> fromDataClass, long idToDelete) {
-        realm.executeTransaction(r -> {
-            T toDelete = r.where(fromDataClass)
-                    .equalTo(PersistanceFields.ID, idToDelete)
-                    .findFirst();
-            if (toDelete != null) toDelete.deleteFromRealm();
-        });
+    public void deleteAsync(final Class<T> fromDataClass, long idToDelete) {
+        Realm realm = null;
+        try {
+            realm = Realm.getDefaultInstance();
+            realm.executeTransaction(r -> {
+                T toDelete = r.where(fromDataClass)
+                        .equalTo(PersistanceFields.ID, idToDelete)
+                        .findFirst();
+                if (toDelete != null) toDelete.deleteFromRealm();
+            });
+        }
+        finally {
+            if (realm != null) realm.close();
+        }
     }
 }

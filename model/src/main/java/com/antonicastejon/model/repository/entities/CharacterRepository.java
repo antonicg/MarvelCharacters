@@ -1,9 +1,5 @@
 package com.antonicastejon.model.repository.entities;
 
-import android.os.Parcel;
-
-import java.util.List;
-
 /**
  * Created by Antoni Castejón on 28/01/2017.
  */
