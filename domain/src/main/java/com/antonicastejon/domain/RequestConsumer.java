@@ -8,8 +8,6 @@ import io.reactivex.functions.Consumer;
 
 public class RequestConsumer<T> implements Consumer<T> {
 
-    private final static int OK_CODE = 200;
-
     public interface Callback<T> {
         void onResponse(T data);
         void onError(int code, String message);

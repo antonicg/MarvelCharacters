@@ -1,6 +1,6 @@
 package com.antonicastejon.marvelcharacters.views.main;
 
-import com.antonicastejon.domain.business.entities.Comic;
+import com.antonicastejon.domain.business.entities.Character;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.base.BaseMvpView;
 
@@ -12,19 +12,21 @@ import java.util.List;
 
 public interface MainView extends BaseMvpView {
 
-    void initializeComicsView(Images images);
+    void initializeCharactersView(Images images);
 
-    void initializeComicsViewWithComics(Images images, List<Comic> comics);
+    void initializeCharactersViewWith(Images images, List<Character> characters);
 
-    boolean thereAreAnyComic();
+    boolean thereAreAnyCharacter();
 
-    void updateComics(List<Comic> viewData);
+    void updateCharacters(List<Character> viewData);
 
-    void errorLoadingComics();
+    void errorLoadingCharacters();
 
     void showRetryMessage();
 
     void hideRetryMessage();
 
     boolean isShowingRetryMessage();
+
+    void refreshItem(int pos);
 }

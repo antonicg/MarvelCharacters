@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 
-import com.antonicastejon.domain.business.entities.Comic;
+import com.antonicastejon.domain.business.entities.Character;
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.di.ApplicationModule;
 import com.antonicastejon.marvelcharacters.di.DaggerMainComponent;
@@ -34,10 +34,11 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseMvpActivity implements MainView, MainAdapter.ItemPressedListener {
 
-    private final static String KEY_BUNDLE_COMICS = "comics";
+    private final static String KEY_BUNDLE_CHARACTERS = "characters";
     private final static String KEY_BUNDLE_CURRENT_PAGE = "page";
+    private final static int REQUEST_CODE_DETAIL = 1;
 
-    private final static int START_OFFSET_COMICS = 0;
+    private final static int START_OFFSET = 0;
     private final static int GRID_SPAN_PORTRAIT = 2;
     private final static int GRID_SPAN_LANDSCAPE = 3;
 
@@ -64,18 +65,18 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
 
         if (savedInstanceState != null) {
             currentPage = savedInstanceState.getInt(KEY_BUNDLE_CURRENT_PAGE);
-            List<Comic> comics = savedInstanceState.getParcelableArrayList(KEY_BUNDLE_COMICS);
-            if (comics != null) presenter.initWith(comics);
-            else initializePresenterAndLoadComics();
+            List<Character> characters = savedInstanceState.getParcelableArrayList(KEY_BUNDLE_CHARACTERS);
+            if (characters != null) presenter.initWith(characters);
+            else initializePresenterAndLoad();
         }
         else {
-            initializePresenterAndLoadComics();
+            initializePresenterAndLoad();
         }
     }
 
-    private void initializePresenterAndLoadComics() {
+    private void initializePresenterAndLoad() {
         presenter.init();
-        loadComics(START_OFFSET_COMICS);
+        load(START_OFFSET);
     }
 
     private void injectDependencies() {
@@ -99,26 +100,46 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
         }
     }
 
-    private void loadComics(int offset) {
+    private void load(int offset) {
         presenter.load(offset);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_DETAIL) {
+                updateCurrentPositionFrom(data);
+            }
+        }
+    }
+
+    private void updateCurrentPositionFrom(Intent data) {
+        int posToUpdate = presenter.getCurrentPositionPressedAndClean();
+        if (data != null && posToUpdate >= 0) {
+            Character character = data.getParcelableExtra(DetailActivity.KEY_EXTRA_CHARACTER);
+            if (adapter != null && character != null) {
+                adapter.update(posToUpdate, character);
+            }
+        }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (adapter != null) {
-            outState.putParcelableArrayList(KEY_BUNDLE_COMICS, (ArrayList<? extends Parcelable>) adapter.getData());
+            outState.putParcelableArrayList(KEY_BUNDLE_CHARACTERS, (ArrayList<? extends Parcelable>) adapter.getData());
         }
         outState.putInt(KEY_BUNDLE_CURRENT_PAGE, endlessScrollListener.getCurrentPage());
     }
 
     @Override
-    public void initializeComicsView(Images images) {
-        initializeComicsViewWithComics(images, null);
+    public void initializeCharactersView(Images images) {
+        initializeCharactersViewWith(images, null);
     }
 
     @Override
-    public void initializeComicsViewWithComics(Images images, @Nullable List<Comic> comics) {
+    public void initializeCharactersViewWith(Images images, @Nullable List<Character> characters) {
         if (recyclerView == null || presenter == null) return;
 
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(getGridSpan(), StaggeredGridLayoutManager.VERTICAL);
@@ -136,7 +157,7 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
         adapter = new MainAdapter(this, images);
         recyclerView.setAdapter(adapter);
 
-        if (comics != null) adapter.update(comics);
+        if (characters != null) adapter.update(characters);
     }
 
     private int getGridSpan() {
@@ -144,17 +165,17 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     }
 
     @Override
-    public boolean thereAreAnyComic() {
+    public boolean thereAreAnyCharacter() {
         return adapter != null && adapter.getItemCount() > 0;
     }
 
     @Override
-    public void updateComics(List<Comic> viewData) {
+    public void updateCharacters(List<Character> viewData) {
         if (adapter != null) adapter.update(viewData);
     }
 
     @Override
-    public void errorLoadingComics() {
+    public void errorLoadingCharacters() {
         if (endlessScrollListener != null) endlessScrollListener.resetState();
     }
 
@@ -164,7 +185,7 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
         buttonRetry = (Button) findViewById(R.id.button_retry);
         if (buttonRetry != null) {
             buttonRetry.setOnClickListener(v -> {
-                loadComics(START_OFFSET_COMICS);
+                load(START_OFFSET);
             });
         }
     }
@@ -180,11 +201,22 @@ public class MainActivity extends BaseMvpActivity implements MainView, MainAdapt
     }
 
     @Override
-    public void onComicPressed(Comic comic, View transitionView) {
-        Intent intent = DetailActivity.getIntent(this, comic);
+    public void refreshItem(int pos) {
+        if (adapter != null) adapter.notifyItemChanged(pos);
+    }
+
+    @Override
+    public void onCharacterPressed(int position, Character character, View transitionView) {
+        presenter.onCharacterPositionPressed(position);
+
+        Intent intent = DetailActivity.getIntent(this, character);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, transitionView, getString(R.string.transition_detail_image));
-        startActivity(intent, options.toBundle());
+        startActivityForResult(intent, REQUEST_CODE_DETAIL, options.toBundle());
+    }
 
+    @Override
+    public void onFavPressed(int pos, Character character) {
+        presenter.changeFavoriteStateAndSave(pos, character);
     }
 }
