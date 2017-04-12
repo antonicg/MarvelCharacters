@@ -48,6 +48,7 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     @BindView(R.id.collapsing_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.toolbar) Toolbar toolbar;
+
     @Inject
     DetailPresenter presenter;
 

@@ -37,7 +37,6 @@ public class CharacterRepositoryHelperTest {
         when(characterRepository.getThumbnail()).thenReturn(imageRepository);
         when(imageRepository.getPath()).thenReturn("");
         when(imageRepository.getExtension()).thenReturn("");
-        when(characterRepository.getImageRepositories()).thenReturn(imageRepositories);
         when(imageRepositories.get(anyInt())).thenReturn(imageRepository);
         when(imageRepositories.size()).thenReturn(SIZE_IMAGES);
     }
@@ -49,16 +48,5 @@ public class CharacterRepositoryHelperTest {
         verify(characterRepository).getThumbnail();
         verify(imageRepository).getPath();
         verify(imageRepository).getExtension();
-    }
-
-    @Test
-    public void testGetRandomImageUrl() {
-        RepositoryHelper.getRandomImageUrl(characterRepository);
-
-        verify(characterRepository).getImageRepositories();
-        verify(imageRepositories).get(anyInt());
-        verify(imageRepository).getPath();
-        verify(imageRepository).getExtension();
-
     }
 }
