@@ -7,6 +7,7 @@ OpenSource libraries used:
 * RxJava 2
 * Dagger 2
 * Retrofit
+* Realm
 * Glide
 * Butterknife
 
