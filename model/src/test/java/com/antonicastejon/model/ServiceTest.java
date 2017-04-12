@@ -3,7 +3,7 @@ package com.antonicastejon.model;
 import com.antonicastejon.model.repository.api.MarvelApi;
 import com.antonicastejon.model.repository.api.ResponseWrapper;
 import com.antonicastejon.model.repository.crypt.MD5;
-import com.antonicastejon.model.repository.entities.ComicRepository;
+import com.antonicastejon.model.repository.entities.CharacterRepository;
 import com.antonicastejon.model.repository.services.MarvelService;
 
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class ServiceTest {
     @Mock
     MD5 md5;
     @Mock
-    ResponseWrapper<ComicRepository> responseMocked;
+    ResponseWrapper<CharacterRepository> responseMocked;
     @Mock
     MarvelApi marvelApi;
 
@@ -42,7 +42,7 @@ public class ServiceTest {
 
     @Test
     public void testExecute() {
-        when(marvelApi.getComicsFromCharacter(anyLong(), anyLong(), anyString(), anyString(), anyInt(), anyInt()))
+        when(marvelApi.getCharacters(anyLong(), anyString(), anyString(), anyInt(), anyInt()))
                 .thenReturn(Flowable.just(responseMocked));
         try {
             when(md5.getMD5(anyString())).thenReturn("");
