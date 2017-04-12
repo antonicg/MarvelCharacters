@@ -5,6 +5,7 @@ import com.antonicastejon.model.repository.entities.ImageRepository;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -37,7 +38,7 @@ public class CharacterRepositoryHelperTest {
         when(characterRepository.getThumbnail()).thenReturn(imageRepository);
         when(imageRepository.getPath()).thenReturn("");
         when(imageRepository.getExtension()).thenReturn("");
-        when(imageRepositories.get(anyInt())).thenReturn(imageRepository);
+        when(imageRepositories.get(ArgumentMatchers.anyInt())).thenReturn(imageRepository);
         when(imageRepositories.size()).thenReturn(SIZE_IMAGES);
     }
 
