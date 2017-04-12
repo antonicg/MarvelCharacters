@@ -1,5 +1,6 @@
 package com.antonicastejon.marvelcharacters.di;
 
+import com.antonicastejon.domain.helpers.CharactersPersistance;
 import com.antonicastejon.marvelcharacters.utils.image.Images;
 import com.antonicastejon.marvelcharacters.views.detail.DetailPresenter;
 import com.antonicastejon.marvelcharacters.views.detail.DetailView;
@@ -21,7 +22,7 @@ public class DetailPresenterModule {
     }
 
     @Provides
-    DetailPresenter providesDetailPresenter(Images images) {
-        return new DetailPresenter(detailView, images);
+    DetailPresenter providesDetailPresenter(Images images, CharactersPersistance charactersPersistance) {
+        return new DetailPresenter(detailView, images, charactersPersistance);
     }
 }

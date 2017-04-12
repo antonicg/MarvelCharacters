@@ -7,41 +7,37 @@ import android.os.Parcelable;
  * Created by Antoni Castejón on 30/03/2017.
  */
 
-public class Comic implements Parcelable {
-    private int id;
+public class Character implements Parcelable {
+    private long id;
     private String title;
     private String description;
-    private int pageCount;
     private String thumbnailUrl;
-    private String randomImageUrl;
+    private boolean isFavorite;
 
-    public Comic(int id, String title, String description, int pageCount, String thumbnailUrl, String randomImageUrl) {
+    public Character(long id, String title, String description, String thumbnailUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.pageCount = pageCount;
         this.thumbnailUrl = thumbnailUrl;
-        this.randomImageUrl = randomImageUrl;
     }
 
-    protected Comic(Parcel in) {
-        id = in.readInt();
+    protected Character(Parcel in) {
+        isFavorite = in.readByte() == 1;
+        id = in.readLong();
         title = in.readString();
         description = in.readString();
-        pageCount = in.readInt();
         thumbnailUrl = in.readString();
-        randomImageUrl = in.readString();
     }
 
-    public static final Creator<Comic> CREATOR = new Creator<Comic>() {
+    public static final Creator<Character> CREATOR = new Creator<Character>() {
         @Override
-        public Comic createFromParcel(Parcel in) {
-            return new Comic(in);
+        public Character createFromParcel(Parcel in) {
+            return new Character(in);
         }
 
         @Override
-        public Comic[] newArray(int size) {
-            return new Comic[size];
+        public Character[] newArray(int size) {
+            return new Character[size];
         }
     };
 
@@ -52,15 +48,14 @@ public class Comic implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
+        parcel.writeByte((byte) (isFavorite ? 1 : 0));
+        parcel.writeLong(id);
         parcel.writeString(title);
         parcel.writeString(description);
-        parcel.writeInt(pageCount);
         parcel.writeString(thumbnailUrl);
-        parcel.writeString(randomImageUrl);
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -72,15 +67,15 @@ public class Comic implements Parcelable {
         return description;
     }
 
-    public int getPageCount() {
-        return pageCount;
-    }
-
     public String getThumbnailUrl() {
         return thumbnailUrl;
     }
 
-    public String getRandomImageUrl() {
-        return randomImageUrl;
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

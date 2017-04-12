@@ -10,11 +10,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.antonicastejon.domain.business.entities.Comic;
+import com.antonicastejon.domain.business.entities.Character;
 import com.antonicastejon.marvelcharacters.R;
 import com.antonicastejon.marvelcharacters.di.DaggerDetailComponent;
 import com.antonicastejon.marvelcharacters.di.DetailPresenterModule;
@@ -32,7 +34,8 @@ import butterknife.ButterKnife;
 
 public class DetailActivity extends BaseMvpActivity implements DetailView {
 
-    private final static String COMIC_EXTRA = "comic";
+    public final static String KEY_EXTRA_CHARACTER = "character";
+    private final static String CHARACTER_EXTRA = "character";
 
     @BindView(R.id.image)
     ImageView imageView;
@@ -45,12 +48,13 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     @BindView(R.id.collapsing_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.toolbar) Toolbar toolbar;
+
     @Inject
     DetailPresenter presenter;
 
-    public static Intent getIntent(AppCompatActivity activity, Comic comic) {
+    public static Intent getIntent(AppCompatActivity activity, Character character) {
         Intent intent = new Intent(activity, DetailActivity.class);
-        intent.putExtra(COMIC_EXTRA, comic);
+        intent.putExtra(CHARACTER_EXTRA, character);
         return intent;
     }
 
@@ -62,7 +66,7 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
         injectDependencies();
 
         initCollapsingToolbarLayout();
-        showComicFromExtras();
+        showCharacterFromExtras();
     }
 
     private void injectDependencies() {
@@ -87,12 +91,27 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     }
 
 
-    private void showComicFromExtras() {
+    private void showCharacterFromExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            Comic comic = extras.getParcelable(COMIC_EXTRA);
-            if (comic != null) presenter.showComic(comic);
+            Character character = extras.getParcelable(CHARACTER_EXTRA);
+            if (character != null) presenter.show(character);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.fav);
+        Character character = presenter.getCharacter();
+        item.setIcon(character != null && character.isFavorite() ? R.drawable.ic_favorite_black_24dp : R.drawable.ic_favorite_border_black_24dp);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -101,9 +120,28 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.fav:
+                onFavPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int result = presenter.isFavoriteStateChanged() ? RESULT_OK : RESULT_CANCELED;
+        if (presenter.isFavoriteStateChanged()) {
+            Intent data = new Intent();
+            data.putExtra(KEY_EXTRA_CHARACTER, presenter.getCharacter());
+            setResult(RESULT_OK, data);
+        }
+        else setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void onFavPressed() {
+        presenter.markCharacterAsFavorite();
     }
 
     @Override
@@ -128,7 +166,7 @@ public class DetailActivity extends BaseMvpActivity implements DetailView {
     }
 
     @Override
-    public void showPages(int pages) {
-        textViewPages.setText(getResources().getQuantityString(R.plurals.pages, pages, pages));
+    public void showIsFavorite() {
+        invalidateOptionsMenu();
     }
 }
